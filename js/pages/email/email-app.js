@@ -1,7 +1,7 @@
 import emailService from '../../services/email.service.js'
 import emailFilter from '../../cmps/email/email-filter.js'
 import emailList from '../../cmps/email/email-list.js'
-import emailAdd from '../../cmps/email/email-add.js'
+import emailCompose from '../../cmps/email/email-compose.js'
 import emailStatus from '../../cmps/email/email-status.js'
 // import emailDetails from '../pages/email-details.js'
 // import userMsg from '../cmps/user-msg.js'
@@ -11,21 +11,22 @@ import eventBus, {USR_MSG_DISPLAY} from '../../services/event-bus.service.js'
 
 export default {
     created() {
-        eventBus.$emit(USR_MSG_DISPLAY, {txt:'Going Home...',type:'success'});
-        // emailService.getEmails()
-        // .then(emails => {
-        //   this.emails = emails;
-        //   this.setFilter(this.filter);
-        // });
+        // eventBus.$emit(USR_MSG_DISPLAY, {txt:'Going Home...',type:'success'});
+        emailService.query()
+            .then(emails => this.emails = emails)
     },
+        //   this.setFilter(this.filter);
+        
+    
 
     data(){
         return {
-            // emails: [], 
+            emails: [], 
             // filter: null,
         }
     },
     computed: {
+
         // emailsToShow() {
         //     return this.filteredemails;
         // }
@@ -40,7 +41,7 @@ export default {
         emailFilter,
         emailList,
         emailService,
-        emailAdd,
+        emailCompose,
         emailStatus 
     }
 }

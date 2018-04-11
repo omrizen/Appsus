@@ -28,11 +28,31 @@ function getCurrency(currencyCode) {
             return '';
     }
 }
+function getLoremIpsum(wordsCount) {
+    var wordsCount = getRandomInt(1,wordsCount+1);  
+    var str = '';
+    for (var i=0; i<wordsCount; i++){
+        str += getRandomWord (getRandomInt(3,6));
+        str += ' ';
+    }
+    return str;
+}
+
+function getRandomWord(count) {
+    var str ='';
+    for (var i=0; i<count; i++){
+        var randNumber = getRandomInt(65,91);
+        var letter = String.fromCharCode(randNumber);
+        str += letter;
+    }
+    return str;
+}
 
 export default {
     getRandomInt,
     getRandomString : makeid,
     getCurrency,
+    getLoremIpsum,
     makeid
 }
 
