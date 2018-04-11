@@ -8,17 +8,23 @@ const KEY = 'carsAppKey';
 
 function query(filter = null) {
     console.log('get query')
+
     return storageService.load(KEY)
         .then(places => {
             // console.log(places);
             if (!places) {
                 console.log('create places')
                 places = generatePlaces();
-                storageService.store(KEY, places)
-            }
+               return storageService.store(KEY, places)
+                    .then(() => {
+                        if (filter === null) return places;
+                        else return places.filter(car => car.vendor.includes(filter.byVendor))
+                    })
+            } else{
             console.log('Places: ', places);
             if (filter === null) return places;
             else return places.filter(car => car.vendor.includes(filter.byVendor))
+            }
         })
 }
 
@@ -51,12 +57,12 @@ function renderMap() {
         });
 }
 function renderMarkers(places) {
-    console.log('renderMarker got',places)
+    console.log('renderMarker got', places)
     places.forEach(place => {
         mapService.addMarker({ lat: place.lat, lng: place.lng })
-        .addListener('click', () => {
-            console.log('clicked marker');
-        })
+            .addListener('click', () => {
+                console.log('clicked marker');
+            })
     })
 }
 
