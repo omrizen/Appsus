@@ -1,3 +1,11 @@
-.email-app{
+/* .email-app{
     background-color:red;
+
+} */
+
+.email-preview{
+    padding-bottom:5px;
+    border-radius:1px solid grey;
+    background-color:Red;
+    color:black; 
 }
