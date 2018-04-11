@@ -3,6 +3,8 @@ import placeFilter from '../../cmps/place/place-filter.js'
 import placeList from '../../cmps/place/place-list.js'
 import placeAdd from '../../cmps/place/place-add.js'
 
+import mapService from '../../services/map.service.js'
+
 // import placeDetails from '../pages/place-details.js'
 // import userMsg from '../cmps/user-msg.js'
 // import toggleBtn from '../cmps/toggle-btn.js'
@@ -12,6 +14,11 @@ import eventBus, {USR_MSG_DISPLAY} from '../../services/event-bus.service.js'
 export default {
     created() {
         eventBus.$emit(USR_MSG_DISPLAY, {txt:'places',type:'success'});
+        placeService.renderMap()
+        .then(res => {
+            placeService.query()
+            .then(places => {this.places = places})
+        })
         // placeService.getplaces()
         // .then(places => {
         //   this.places = places;
@@ -21,7 +28,7 @@ export default {
 
     data(){
         return {
-            // places: [], 
+            places: null, 
             // filter: null,
         }
     },
@@ -33,8 +40,11 @@ export default {
     },
     methods: {
     },
-    template: `<section class="place-app">
+    template: `<section class="section place-app">
                     <h1>place</h1>
+                    <!-- <place-filter @filtered="setFilter"></place-filter> -->
+                    <place-list v-if="places" :places="places"></place-list>
+                    <div id="map" style="width: 100%; height: 50vh"></div>
                 </section>`,
     components: {
         placeFilter,
