@@ -9,23 +9,30 @@ var emailsDB = [];
 const KEY = 'emailsAppKey'
 const EMAILS_NUM = 20;
 
-function query(filter=null) {
+function query(filter = null) {
     return storageService.load(KEY)
         .then(emails => {
             if (!emails) {
-                console.log ('generate emails')
+                console.log('generate emails')
                 emails = generateEmails(EMAILS_NUM);
-                console.log ('emails' , emails);
-                return storageService.store('moshe',emails)
-                .then (()=>{
-                    console.log ('bla bla');
-                    if (filter === null) return emails;
-                    else return emails;       
-                })
+                console.log('emails', emails);
+                storageService.store(KEY, emails)
+                    .then(() => {
+                        storageService.load(KEY)
+                        .then (emails =>{
+                            return emails;
+                        })
+                        
+                        // }
+                    })
             }
-            else{ 
-                console.log ('got emails from load')
-                return emails;
+            else {
+                console.log('got emails from load')
+                if (filter === null) return emails;
+                else {
+                     console.log ('filter' , filter);   
+                     return emails.filter(email => email.content.includes(filter.byContent))
+                }
             }
             // console.log('Cars: ', cars);
             // if (filter === null) return cars;
@@ -33,9 +40,18 @@ function query(filter=null) {
         })
 }
 
+function deleteEmail(emailId) {
+    return storageService.load(KEY)
+        .then(emails => {
+            var emailIdx = emails.findIndex(email => email.id === emailId);
+            emails.splice(emailIdx, 1);
+            return storageService.store(KEY, emails);
+        })
+}
+
 
 function generateEmails(length) {
-    var emails =[];
+    var emails = [];
     console.log('gen email');
     for (var i = 0; i < length; i++) {
         emails.push(generateEmail());
@@ -43,14 +59,26 @@ function generateEmails(length) {
     return emails;
 }
 
+
+function getById(id) {
+    return storageService.load(KEY)
+        .then(items => {
+            console.log ('getbyId' , items);
+            return items.find(item => item.id === id);
+        })
+}
+
+
 function generateEmail() {
     var email = {
-        from: utilService.getLoremIpsum(1)+'.gmail.com',
-        to: utilService.getLoremIpsum(1)+'gmail.com',
+        id: utilService.makeid(10),
+        from: utilService.getLoremIpsum(1) + '.gmail.com',
+        to: utilService.getLoremIpsum(1) + 'gmail.com',
         subject: utilService.getLoremIpsum(6),
         content: utilService.getLoremIpsum(20),
-        time: null,
-        read:false,
+        sentTime: null,
+        read: false,
+        statusRead: 'unRead'
     }
     return email;
 }
@@ -62,4 +90,6 @@ function generateEmail() {
 
 export default {
     query,
+    getById,
+    deleteEmail 
 }
