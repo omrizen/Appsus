@@ -21,14 +21,13 @@ export default {
     },
         //   this.setFilter(this.filter);
         
-    
-
     data(){
         return {
             emails: [], 
              filter: null,
              filteredEmails: null,
              selectedEmail: null,
+            
              
         }
     },
@@ -36,21 +35,24 @@ export default {
         emailsToShow() {
             return  this.emails
         },
-        
-        // selectEmail(){
-        //     return 'stam select email';
-        // }
-        // selectedBook(){
-
-        // }
-      
+        composedEmail (){
+            return true;
+        }
     },
     methods: {
         selectEmail (id){
              emailService.getById(id).
              then(email => {
                  this.selectedEmail=email;
-                 this.selectedEmail.statusRead = 'read';
+                 if (this.selectEmail.read ==false){
+                    this.selectedEmail.read = 'true';
+                    
+                    console.log ('book transforms to read');
+
+
+
+                 }
+                 
                  
              }) 
         },
@@ -61,17 +63,22 @@ export default {
             emailService.deleteEmail()
             .then(res => {
                 console.log(`email was deleted`);
+
             })
         },
         setFilter(filter) {
-            emailService.query(filter)
+            this.filter=filter;
+            emailService.query(this.filter)
             .then(emails => this.emails = emails)    
-        }
+        },
+        
+        
     },
     template: `<section class="email-app">
                     <h1>email</h1>
-                    <!-- <email-compose  v-if="!selectedBook"></email-compose>  -->
-                    <email-details v-if="selectedEmail" @deleteEmail="deletekEmail" :email="selectedEmail" @close="closeEmail"></email-details>
+                    <!-- <button @click="composeEmail"> compose </button> -->
+                    <!-- <email-compose  v-if="composedEmail"></email-compose>  -->
+                    <email-details v-if="selectedEmail" @deleteEmail="deleteEmail" :email="selectedEmail" @close="closeEmail"></email-details>
                     <email-filter v-if="!selectedEmail" @filtered="setFilter"></email-filter>
                     <email-list v-if="!selectedEmail" :emails="emailsToShow"  @selected="selectEmail"></email-list>
                     

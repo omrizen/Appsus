@@ -8,7 +8,7 @@ export default {
 
     
     created (){
-        this.email.statusRead = 'read';
+        this.email.read = true;
         console.log ('this.email.statusRead',this.email.statusRead);
 
         // emailService.getById(this.email.id).

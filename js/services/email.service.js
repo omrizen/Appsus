@@ -45,9 +45,26 @@ function deleteEmail(emailId) {
         .then(emails => {
             var emailIdx = emails.findIndex(email => email.id === emailId);
             emails.splice(emailIdx, 1);
+            eventBus.$emit(USR_MSG_DISPLAY, {txt:'email was deleted',type:'success'});
             return storageService.store(KEY, emails);
+           
         })
 }
+
+// function addEmail(id,review) {
+//     return storageService.load(KEY)
+//         .then(emails => {
+//             var emailIdx = emails.findIndex(email => email.id === emailId);
+//             emails.splice(emailIdx, 1);
+//             return storageService.store(KEY, emails);
+//         })
+// }
+//     var book = booksDB.find(book => id === book.id)
+//     book.reviews.unshift(review)
+//     storageService.store(BOOKS_KEY, booksDB)
+//     eventBus.$emit(USR_MSG_DISPLAY, {txt:'Review added',type:'success'});
+//     return Promise.resolve(review)
+// }
 
 
 function generateEmails(length) {
@@ -68,6 +85,20 @@ function getById(id) {
         })
 }
 
+function saveEmail(email) {
+    return storageService.load(KEY)
+        .then(emails => {
+            if (email.id) {
+                var emailIdx = emails.findIndex(currEmail => currEmail.id === car.id)
+                cars.splice(emailIdx, 1, email);
+            } else {
+                // email.id = Date.now();
+                // cars.push(car);
+            }
+            return storageService.store(KEY, cars);
+        });
+}
+
 
 function generateEmail() {
     var email = {
@@ -78,13 +109,14 @@ function generateEmail() {
         content: utilService.getLoremIpsum(20),
         sentTime: null,
         read: false,
-        statusRead: 'unRead'
     }
     return email;
 }
 // function create {
 
 // } 
+
+
 
 
 
