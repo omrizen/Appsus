@@ -36,7 +36,7 @@ function getLoremIpsum(wordsCount) {
     var str = '';
     for (var i=0; i<wordsCount; i++){
         str += getRandomWord (getRandomInt(3,6));
-        str += ' ';
+        if (i<wordsCount-1) str += ' ';
     }
     return str;
 }

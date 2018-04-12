@@ -2,6 +2,7 @@
 
 function store(key, any) {
     localStorage[key] = JSON.stringify(any);
+    console.log ('store');    
     return Promise.resolve();
 }
 

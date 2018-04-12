@@ -1,14 +1,9 @@
-import bookService  from '../services/book.service.js'
+import emailsService  from '../services/email.service.js'
 import eventBus, {USR_MSG_DISPLAY} from '../services/event-bus.service.js'
 
 
 export default {
-    template: `
-        <section v-if="msg" class="user-msg" :class="msgType">
-            <button @click="closeMsg">X</button>
-            <h1>{{msg.txt}}</h1>
-        </section>
-    `,
+    
     data(){
         return {
            msg: null
@@ -33,5 +28,11 @@ export default {
         closeMsg(){
             this.msg = null;
         }
-    }
+    },
+    template: `
+        <section v-if="msg" class="user-msg" :class="msgType">
+            <button @click="closeMsg">X</button>
+            <h1>{{msg.txt}}</h1>
+        </section>
+    `,
 }
