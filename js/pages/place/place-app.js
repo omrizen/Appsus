@@ -39,11 +39,16 @@ export default {
       
     },
     methods: {
+        setFilter(filter){
+            placeService.query(filter)
+            .then(places => this.places = places)
+        }
     },
-    template: `<section class="section place-app">
+    template: `<section class="place-app">
                     <h1>place</h1>
-                    <!-- <place-filter @filtered="setFilter"></place-filter> -->
+                    <place-filter @filtered="setFilter"></place-filter>
                     <place-list v-if="places" :places="places"></place-list>
+                    <place-add></place-add>
                     <div id="map" style="width: 100%; height: 50vh"></div>
                 </section>`,
     components: {

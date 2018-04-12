@@ -1,4 +1,11 @@
 .place-app{
-    background-color: teal
+    /* background-color: teal */
     
+}
+.place-preview {
+    border:1px solid black;
+}
+
+.active {
+    background-color: rgba(8, 192, 8, 0.568);
 }

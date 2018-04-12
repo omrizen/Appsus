@@ -5,6 +5,9 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
+function getRandomDouble(min, max) {
+    return Math.random() * (max - min) + min; //The maximum is exclusive and the minimum is inclusive
+}
 
 function makeid(length) {
     var text = '';
@@ -53,6 +56,7 @@ export default {
     getRandomString : makeid,
     getCurrency,
     getLoremIpsum,
-    makeid
+    makeid,
+    getRandomDouble
 }
 

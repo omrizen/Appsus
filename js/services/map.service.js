@@ -33,12 +33,48 @@ function addMarker(loc = { lat: 32.0749831, lng: 34.9120554 }) {
     return marker;
 }
 
+function autoCompleteInput() {
+    let res = null;
+    var input = document.getElementById('add-address');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    
+   google.maps.event.addListener(autocomplete, 'place_changed', () => {
+        console.log('changed!');
+        console.log('autpcomplete:',autocomplete);
+        res = autocomplete;
+        setTimeout(() => {
+            document.querySelector(".form-place-add .sub").click();
+          
+        },0)
+        // return autocomplete;
+        
 
+    })
+    return res;
+    
+}
+
+google.maps.event.addDomListener(window, 'load', autoCompleteInput);
+
+var infowindow = new google.maps.InfoWindow();
+
+function triggerMarker (marker) {
+    google.maps.event.trigger(marker, 'click');
+}
+
+function setMapCenter (lat,lng) {
+    map.setCenter(new google.maps.LatLng(lat, lng));
+}
 
 export default {
     // initMap,
     // addMarker,
+    map,
     getMap,
-    addMarker
+    addMarker,
+    infowindow,
+    triggerMarker,
+    setMapCenter,
+    autoCompleteInput
 }
 
