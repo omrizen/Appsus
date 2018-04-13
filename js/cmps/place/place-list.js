@@ -8,8 +8,8 @@ export default {
         <section class="section places-list">
             <ul>
                 <h2>places list</h2>
-                <li class="place-preview" :class="{active: activeClass === idx}" v-bind:class="idx" @click="activeClass = idx,selected(place.id)" v-for="(place,idx) in places">
-                <place-preview :place="place" v-for="" @delEvent="deletePlace"></place-preview>
+                <li class="place-preview" :class="{active: activeClass === idx}" v-bind:class="idx" @click="activeClass = idx;selected(place.id)" v-for="(place,idx) in places">
+                <place-preview :place="place" @delEvent="deletePlace"></place-preview>
                 <!-- <p>asas</p> -->
                 </li>
     
@@ -19,7 +19,8 @@ export default {
     `,
     data() {
         return {
-            activeClass: ''
+            activeClass: '',
+            // places:
         }
     },
     created() {
@@ -32,6 +33,7 @@ export default {
             placeService.chosePlace(placeId)
             .then(res => {
                 console.log('Marked Place');
+               
                 eventBus.$emit(USR_MSG_DISPLAY, {txt:'Marked Place',type:'success'});
             })
             .catch(err => {
@@ -44,6 +46,8 @@ export default {
             placeService.deletePlace(placeId)
             .then(res => {
                 console.log('Deleted Place');
+                console.log('res is',res)
+                this.places = res;
                 eventBus.$emit(USR_MSG_DISPLAY, {txt:'Deleted Place',type:'success'});
             })
             .catch(err => {

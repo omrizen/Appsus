@@ -8,7 +8,7 @@ export default {
         <form class="form-place-add" @submit.prevent="searchMarker">
             <label>Add Place:
             <!-- <input id="add-address" v-gmaps-searchbox="place" type="text" v-model="place.name" > -->
-            <input id="add-address" type="text" >
+            <input id="add-address" type="text"  @click="searchMarker">
             </label>
             <button class="sub" type="submit"><i class="fas fa-search"></i></button>
         </form>
@@ -39,12 +39,16 @@ export default {
         },
         searchMarker(){
             // console.log('place-add: ',this.place.name)
-           console.log(mapService.autoCompleteInput())
+        //    console.log('place-add autocomplete',mapService.autoCompletePlace);
         }
     },
-    watch: {
-        place: () => {
-          place.name = 'asas'
-        }
-      }
+    // watch: {
+    //     place:  {
+    //         deep: true,
+    //         handler() {
+    //             console.log('change somthing')
+    //             this.place.name = 'asas'
+    //         }
+    //     }
+    //   }
 }

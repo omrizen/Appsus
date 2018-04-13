@@ -14,7 +14,7 @@ const routes = [
     {path: '/', component: home},
     {path: '/about', component: about},
     {path: '/misterEmail', component: email},
-    {path: '/misterPlace', component: place},
+    {path: '/misterPlace/:placeId?', component: place},
 
   ];
 

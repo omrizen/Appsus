@@ -3,7 +3,7 @@ import storageService from './storage.service.js'
 import eventBus, { USR_MSG_DISPLAY } from './event-bus.service.js'
 import mapService from './map.service.js'
 
-const KEY = 'carsAppKey';
+const KEY = 'placesAppKey';
 
 var markers = [];
 
@@ -51,6 +51,7 @@ function createPlace() {
         lat: utilService.getRandomDouble(32, 32.5),
         lng: utilService.getRandomDouble(34.8, 35),
         tag: tags[utilService.getRandomInt(0, tags.length)],
+        photos:[]
     }
 }
 function renderMap() {
@@ -63,25 +64,34 @@ function renderMap() {
 function deletePlace(placeId) {
     return storageService.load(KEY)
         .then(places => {
-            console.log('placeid', placeId);
+            // console.log('placeid', placeId);
             var placeIdx = places.findIndex(place => place.id === placeId);
+            // console.log('placeidx',placeIdx)
             places.splice(placeIdx, 1);
-            console.log('before marker del', markers);
+            // console.log('before marker del', markers);
 
             markers[placeIdx].setMap(null);
             markers.splice(placeIdx, 1);
 
-            console.log('after remove markers:', markers);
-            return storageService.store(KEY, places);
+            // console.log('after remove markers:', markers);
+            // console.log('service-delete-place',places)
+            return storageService.store(KEY, places)
+            .then(() => {
+
+                return places;
+            })
         })
 }
 
 function renderMarkers(places) {
     console.log('renderMarker got', places)
     places.forEach(place => {
-        addServiceMarker(place);
+       var marker =  addServiceMarker(place);
+       markers.push(marker);
     })
     console.log('markers', markers)
+    mapService.setMapCenter(places[0].lat,places[0].lng);
+
     //    console.log(markers[0].setMap(null))
 }
 
@@ -94,7 +104,6 @@ function setPrevICon() {
 function addServiceMarker(place) {
 
     var marker = mapService.addMarker({ lat: place.lat, lng: place.lng })
-    markers.push(marker);
     marker.addListener('click', () => {
         console.log('clicked marker', place.id);
 
@@ -119,6 +128,7 @@ function addServiceMarker(place) {
         prevMarker = marker;
 
     })
+    return marker;
 }
 
 function chosePlace(placeId) {
@@ -129,15 +139,22 @@ function chosePlace(placeId) {
         var place = places[placeIdx];
         mapService.triggerMarker(markers[placeIdx]);
         mapService.setMapCenter(place.lat,place.lng);
+        mapService.setMapZoom();
+        // console.log('map-zoom',mapService.map.getZoom())
         // console.log('map center',mapService.map.getCenter())
         return Promise.resolve();
     })
 }
+
+// function choseSearchPlace (autoCompletePlace) {
+//     console.log('place-service-autocomplete',autoCompletePlace);
+// }
 
 export default {
     query,
     renderMarkers,
     renderMap,
     deletePlace,
-    chosePlace
+    chosePlace,
+    
 }

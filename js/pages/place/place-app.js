@@ -9,16 +9,34 @@ import mapService from '../../services/map.service.js'
 // import userMsg from '../cmps/user-msg.js'
 // import toggleBtn from '../cmps/toggle-btn.js'
 
-import eventBus, {USR_MSG_DISPLAY} from '../../services/event-bus.service.js'
+import eventBus, {USR_MSG_DISPLAY, DEL_PLACE} from '../../services/event-bus.service.js'
+
 
 export default {
     created() {
         eventBus.$emit(USR_MSG_DISPLAY, {txt:'places',type:'success'});
+        eventBus.$on(DEL_PLACE, placeId => {
+            // console.log('placeId',placeId);
+            placeService.deletePlace(placeId)
+            .then(res => {
+                console.log('Deleted Place');
+                console.log('res is',res)
+                this.places = res;
+                eventBus.$emit(USR_MSG_DISPLAY, {txt:'Deleted Place',type:'success'});
+            })
+            .catch(err => {
+                
+                eventBus.$emit(USR_MSG_DISPLAY, {txt:'Place Was Not Deleted',type:'fail'});
+            })
+            // this.msg = msg;
+            // setTimeout(this.closeMsg, 3000);
+        })
         placeService.renderMap()
         .then(res => {
             placeService.query()
             .then(places => {this.places = places})
         })
+        
         // placeService.getplaces()
         // .then(places => {
         //   this.places = places;
@@ -28,7 +46,7 @@ export default {
 
     data(){
         return {
-            places: null, 
+            places: [], 
             // filter: null,
         }
     },
@@ -47,7 +65,7 @@ export default {
     template: `<section class="place-app">
                     <h1>place</h1>
                     <place-filter @filtered="setFilter"></place-filter>
-                    <place-list v-if="places" :places="places"></place-list>
+                    <place-list v-if="places.length" :places="places"></place-list>
                     <place-add></place-add>
                     <div id="map" style="width: 100%; height: 50vh"></div>
                 </section>`,
