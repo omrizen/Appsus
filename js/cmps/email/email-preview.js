@@ -3,30 +3,24 @@ import utilService from '../../services/util.service.js'
 
 export default {
     props: { email: { type: Object, required: true } },
-    created () {
-        console.log ((moment(this.email.sentTime).format("MM/DD/YYYY")));
-        this.time = moment(this.email.sentTime).format("MM/DD/YYYY");
-        this.displayTime();
-        console.log ('momo')
-
-    },
-    data(){
-        return {
-            time: ''
-            
-        }
-    },
+    
     computed : {
+        time (){
+            var emailDate = moment(this.email.sentTime).format("MM/DD/YYYY");
+            if (emailDate === moment(Date.now()).format("MM/DD/YYYY")) {
+                 return moment(this.email.sentTime).format('LT');  
+            }
+            else return emailDate;
+        }  
           
         
     },
-    method : {
-         displayTime (){
-            console.log ('this.time' ,this.time );
-            if (this.time === moment(Date.now).format("MM/DD/YYYY")) {
-                this.time = moment(this.email.sentTime.format).format('LT');  
-            }
-        } 
+    methods : {
+        //  displayTime (){
+        //     if (this.time === moment(Date.now()).format("MM/DD/YYYY")) {
+        //         this.time = moment(this.email.sentTime).format('LT');  
+        //     }
+        // } 
 
     },
 
@@ -35,10 +29,11 @@ export default {
             <div :class="{read: email.read}">
                 <p>{{time}}</p>
                 <h1>From:{{email.from}}</h1>
+                <h1>Subject:{{email.subject}}</h1>
                 <p>{{email.content}}</p>
                 <p>{{email.time}}</p>
             </div>
            
         </section>
     `,
-};
+}
