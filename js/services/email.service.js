@@ -117,6 +117,17 @@ function saveEmail(email) {
         });
 }
 
+function sortByDate (){
+    return storageService.load(KEY)
+        .then(emails => {
+            emails.sort((email1,email2)=>{
+                if (email1.sentTime > email2.sentTime) return 1
+                else if (email1.sentTime < email2.sentTime) return -1
+                return 0;
+            })
+        })
+}
+
 
 function generateEmail() {
     var email = {
@@ -125,9 +136,10 @@ function generateEmail() {
         to: utilService.getLoremIpsum(1) + 'gmail.com',
         subject: utilService.getLoremIpsum(6),
         content: utilService.getLoremIpsum(20),
-        sentTime: utilService.getRandomInt (date.now()-10000 , date.now()),
+        sentTime: utilService.getRandomInt (Date.now()-100000 , Date.now()),
         read: false,
     }
+    console.log ('email.sentTime' ,email.sentTime);
     return email;
 }
 

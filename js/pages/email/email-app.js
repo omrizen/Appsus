@@ -29,6 +29,7 @@ export default {
              filter: null,
              filteredEmails: null,
              selectedEmail: null, 
+             
         }
     },
     computed: {
@@ -80,11 +81,17 @@ export default {
             console.log ('filternow' ,this.filter);
             this.getQuery();  
         },
+        sortByDate(){
+            emailService.sortByDate();
+             
+        }
         
         
     },
     template: `<section class="email-app">
                     <h1>email</h1>
+                    <button v-if="!selectedEmail" @click="sortByDate">sort by date</button>
+                    <!-- <button>sort by title </button> -->
                     <!-- <button @click="composeEmail"> compose </button> -->
                     <!-- <email-compose  v-if="composedEmail"></email-compose>  -->
                     <email-details v-if="selectedEmail" @deleteEmail="deleteEmail" :email="selectedEmail" @close="closeEmail"></email-details>
