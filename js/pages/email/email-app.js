@@ -11,13 +11,15 @@ import eventBus, {USR_MSG_DISPLAY} from '../../services/event-bus.service.js'
 
 export default {
     created() {
-        console.log ('created');
-        // eventBus.$emit(USR_MSG_DISPLAY, {txt:'Going Home...',type:'success'});
-        emailService.query()
+        emailService.query(this.filter)
             .then(emails =>{ 
                 this.emails = emails
                 console.log ('app' , emails);
             })
+        
+        console.log ('created');
+        // eventBus.$emit(USR_MSG_DISPLAY, {txt:'Going Home...',type:'success'});
+
     },
         //   this.setFilter(this.filter);
         
@@ -26,36 +28,38 @@ export default {
             emails: [], 
              filter: null,
              filteredEmails: null,
-             selectedEmail: null,
-            
+             selectedEmail: null, 
              
         }
     },
     computed: {
-        emailsToShow() {
-            return  this.emails
-        },
+        
         composedEmail (){
             return true;
         }
     },
     methods: {
         selectEmail (id){
-             emailService.getById(id).
-             then(email => {
+            console.log ('id', id);
+             emailService.getById(id)
+             .then(email => {
                  this.selectedEmail=email;
-                 if (this.selectEmail.read ==false){
-                    this.selectedEmail.read = 'true';
-                    
+                 console.log ('this.selectedEmail.read' , this.selectedEmail.read);
+                 if (!this.selectedEmail.read){
+                    this.selectedEmail.read = true;          
                     console.log ('book transforms to read');
-
-
-
+                    emailService.saveEmail(this.selectedEmail)
+                    .then(()=>this.getQuery());
                  }
-                 
-                 
              }) 
         },
+        // selectEmail (id){
+        //     console.log ('id', id);
+        //      emailService.makeEmailRead(id).
+        //      then(()=>this.getQuery());
+             
+        // },
+        
         closeEmail (){
             this.selectedEmail = null;
         },
@@ -63,24 +67,36 @@ export default {
             emailService.deleteEmail()
             .then(res => {
                 console.log(`email was deleted`);
-
+            })
+        },
+        getQuery(){
+            emailService.query(this.filter)
+            .then(emails =>{ 
+                this.emails = emails
+                console.log ('app' , emails);
             })
         },
         setFilter(filter) {
             this.filter=filter;
-            emailService.query(this.filter)
-            .then(emails => this.emails = emails)    
+            console.log ('filternow' ,this.filter);
+            this.getQuery();  
         },
+        sortByDate(){
+            emailService.sortByDate();
+             
+        }
         
         
     },
     template: `<section class="email-app">
                     <h1>email</h1>
+                    <button v-if="!selectedEmail" @click="sortByDate">sort by date</button>
+                    <!-- <button>sort by title </button> -->
                     <!-- <button @click="composeEmail"> compose </button> -->
                     <!-- <email-compose  v-if="composedEmail"></email-compose>  -->
                     <email-details v-if="selectedEmail" @deleteEmail="deleteEmail" :email="selectedEmail" @close="closeEmail"></email-details>
                     <email-filter v-if="!selectedEmail" @filtered="setFilter"></email-filter>
-                    <email-list v-if="!selectedEmail" :emails="emailsToShow"  @selected="selectEmail"></email-list>
+                    <email-list v-if="!selectedEmail" :emails="emails"  @selected="selectEmail"></email-list>
                     
                 </section>`,
     components: {

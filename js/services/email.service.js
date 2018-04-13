@@ -29,16 +29,30 @@ function query(filter = null) {
             else {
                 console.log('got emails from load')
                 if (filter === null) return emails;
+                
                 else {
                      console.log ('filter' , filter);   
-                     return emails.filter(email => email.content.includes(filter.byContent))
+                     return emails.filter(email =>{
+                        return getEmailFilter(email, filter);
+                     })
                 }
             }
-            // console.log('Cars: ', cars);
-            // if (filter === null) return cars;
-            // else return cars.filter(car => car.vendor.includes(filter.byVendor))
+        
         })
 }
+
+    function getEmailFilter(email, filter) {
+        var resFilterRead
+          if (filter.byRead === 'read'){
+               resFilterRead = (email.read === true);
+          } else if (  filter.byRead === 'unread'){
+            resFilterRead = (email.read === false);
+          }
+          else resFilterRead=true;
+
+          return resFilterRead && email.content.includes(filter.byContent) 
+    }
+
 
 function deleteEmail(emailId) {
     return storageService.load(KEY)
@@ -46,10 +60,11 @@ function deleteEmail(emailId) {
             var emailIdx = emails.findIndex(email => email.id === emailId);
             emails.splice(emailIdx, 1);
             eventBus.$emit(USR_MSG_DISPLAY, {txt:'email was deleted',type:'success'});
-            return storageService.store(KEY, emails);
-           
+            return storageService.store(KEY, emails);  
         })
 }
+
+
 
 // function addEmail(id,review) {
 //     return storageService.load(KEY)
@@ -76,7 +91,6 @@ function generateEmails(length) {
     return emails;
 }
 
-
 function getById(id) {
     return storageService.load(KEY)
         .then(items => {
@@ -85,18 +99,33 @@ function getById(id) {
         })
 }
 
+// function makeEmailRead(emailId){
+//     var emailIdx = emails.findIndex(currEmail => currEmail.id === email.id)
+// }
+
 function saveEmail(email) {
     return storageService.load(KEY)
         .then(emails => {
             if (email.id) {
-                var emailIdx = emails.findIndex(currEmail => currEmail.id === car.id)
-                cars.splice(emailIdx, 1, email);
+                var emailIdx = emails.findIndex(currEmail => currEmail.id === email.id)
+                emails.splice(emailIdx, 1, email);
             } else {
                 // email.id = Date.now();
                 // cars.push(car);
             }
-            return storageService.store(KEY, cars);
+            return storageService.store(KEY, emails);
         });
+}
+
+function sortByDate (){
+    return storageService.load(KEY)
+        .then(emails => {
+            emails.sort((email1,email2)=>{
+                if (email1.sentTime > email2.sentTime) return 1
+                else if (email1.sentTime < email2.sentTime) return -1
+                return 0;
+            })
+        })
 }
 
 
@@ -107,21 +136,16 @@ function generateEmail() {
         to: utilService.getLoremIpsum(1) + 'gmail.com',
         subject: utilService.getLoremIpsum(6),
         content: utilService.getLoremIpsum(20),
-        sentTime: null,
+        sentTime: utilService.getRandomInt (Date.now()-100000 , Date.now()),
         read: false,
     }
+    console.log ('email.sentTime' ,email.sentTime);
     return email;
 }
-// function create {
-
-// } 
-
-
-
-
 
 export default {
     query,
     getById,
-    deleteEmail 
+    deleteEmail,
+    saveEmail,
 }
