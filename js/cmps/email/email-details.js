@@ -28,7 +28,7 @@ export default {
         },
     },
     template: `
-        <section class="email-details">
+        <section class="email-details container">
                     <h1> Subject: {{email.subject}} </h1>
                     <h1> From:  {{email.from}}</h1>
                     <div>  {{email.sentTime}}</div>

@@ -25,19 +25,19 @@ export default {
     
 
     template: `
-        <section class="container email-filter">
-            <h1>Filtering</h1>
-            <button class="clear-btn filter-btn">Filter </button>
-            <label>
-                By content
-                <input type="text" v-model="filter.byContent" @input="emitFilter" />
-            </label>
-            <div class="custom-select" style="width:200px;">
+        <section class="email-filter">
+        <div class="flex ">
+            
+            <div class="custom-select">
             <select @change="changedValue" >
-                <option value="all">all:</option>
+                <option value="all">all</option>
                 <option value="read">read</option>
                 <option value="unread">unread</option>
             </select>
+            </div>
+            <label>
+                <input type="text" v-model="filter.byContent" @input="emitFilter" placeholder="search"/>
+            </label>
             </div>
         </section>
             `

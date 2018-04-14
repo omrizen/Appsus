@@ -7,51 +7,76 @@ import eventBus, { USR_MSG_DISPLAY } from './event-bus.service.js'
 var emailsDB = [];
 
 const KEY = 'emailsAppKey'
-const EMAILS_NUM = 20;
+const EMAILS_NUM = 3;
 
-function query(filter = null) {
+function query(filter = null, isSortByDate = true) {
     return storageService.load(KEY)
         .then(emails => {
             if (!emails) {
-                console.log('generate emails')
                 emails = generateEmails(EMAILS_NUM);
-                console.log('emails', emails);
-                storageService.store(KEY, emails)
+                return storageService.store(KEY, emails)
                     .then(() => {
-                        storageService.load(KEY)
-                        .then (emails =>{
-                            return emails;
-                        })
-                        
+                        return storageService.load(KEY)
+                            .then(emails => {
+                                console.log('mmmmmmmmmmm');
+                                return emails;
+                            })
+
                         // }
                     })
             }
             else {
-                console.log('got emails from load')
-                if (filter === null) return emails;
-                
-                else {
-                     console.log ('filter' , filter);   
-                     return emails.filter(email =>{
-                        return getEmailFilter(email, filter);
-                     })
+                if (filter === null) {
+                    emails = getSorted(isSortByDate, emails);
+                    console.log('emails', emails);
+                    return emails;
                 }
+                else {
+                    emails = emails.filter(email => {
+                        return getEmailFilter(email, filter);
+                    })
+                    return getSorted(isSortByDate, emails )
+                }
+
             }
-        
+
         })
 }
-
-    function getEmailFilter(email, filter) {
-        var resFilterRead
-          if (filter.byRead === 'read'){
-               resFilterRead = (email.read === true);
-          } else if (  filter.byRead === 'unread'){
-            resFilterRead = (email.read === false);
-          }
-          else resFilterRead=true;
-
-          return resFilterRead && email.content.includes(filter.byContent) 
+function getSorted(isSortByDate, emails) {
+    if (isSortByDate) {
+        emails.sort((email1, email2) => {
+            if (email1.sentTime < email2.sentTime) return 1;
+            else if (email1.sentTime > email2.sentTime) return -1
+            else return 0;
+        })
+    }else{
+        emails.sort((email1, email2) => {
+            console.log ('emailsubject' ,email1.subject );
+            if (email1.subject > email2.subject) return 1;
+            else if (email1.subject < email2.subject) return -1
+            else return 0;
+        })
     }
+    console.log ('emails', emails);
+    return emails;
+}
+
+
+
+function getEmailFilter(email, filter) {
+    var resFilterRead
+    if (filter.byRead === 'read') {
+        console.log('read');
+        resFilterRead = (email.read === true);
+    } else if (filter.byRead === 'unread') {
+        resFilterRead = (email.read === false);
+    }
+
+    else resFilterRead = true;
+
+
+    return resFilterRead && email.content.includes(filter.byContent)
+}
 
 
 function deleteEmail(emailId) {
@@ -59,8 +84,8 @@ function deleteEmail(emailId) {
         .then(emails => {
             var emailIdx = emails.findIndex(email => email.id === emailId);
             emails.splice(emailIdx, 1);
-            eventBus.$emit(USR_MSG_DISPLAY, {txt:'email was deleted',type:'success'});
-            return storageService.store(KEY, emails);  
+            eventBus.$emit(USR_MSG_DISPLAY, { txt: 'email was deleted', type: 'success' });
+            return storageService.store(KEY, emails);
         })
 }
 
@@ -94,7 +119,7 @@ function generateEmails(length) {
 function getById(id) {
     return storageService.load(KEY)
         .then(items => {
-            console.log ('getbyId' , items);
+            console.log('getbyId', items);
             return items.find(item => item.id === id);
         })
 }
@@ -110,23 +135,16 @@ function saveEmail(email) {
                 var emailIdx = emails.findIndex(currEmail => currEmail.id === email.id)
                 emails.splice(emailIdx, 1, email);
             } else {
-                // email.id = Date.now();
-                // cars.push(car);
+                email.id = utilService.makeid(10);
+                email.sentTime = Date.now();
+                email.from = 'omrize.gmail.com'
+                email.read=false;
+                emails.push(email);
             }
             return storageService.store(KEY, emails);
         });
 }
 
-function sortByDate (){
-    return storageService.load(KEY)
-        .then(emails => {
-            emails.sort((email1,email2)=>{
-                if (email1.sentTime > email2.sentTime) return 1
-                else if (email1.sentTime < email2.sentTime) return -1
-                return 0;
-            })
-        })
-}
 
 
 function generateEmail() {
@@ -136,10 +154,10 @@ function generateEmail() {
         to: utilService.getLoremIpsum(1) + 'gmail.com',
         subject: utilService.getLoremIpsum(6),
         content: utilService.getLoremIpsum(20),
-        sentTime: utilService.getRandomInt (Date.now()-100000 , Date.now()),
+        sentTime: utilService.getRandomInt(Date.now() - 10000000, Date.now()),
         read: false,
     }
-    console.log ('email.sentTime' ,email.sentTime);
+    console.log('email.sentTime', email.sentTime);
     return email;
 }
 
