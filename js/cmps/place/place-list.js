@@ -5,7 +5,7 @@ import eventBus, {USR_MSG_DISPLAY} from '../../services/event-bus.service.js'
 export default {
     props: ['places'],
     template: `
-        <section class="section places-list">
+        <section class="places-list">
             <ul class="places-list-content">
                 <h2>Your Places</h2>
  

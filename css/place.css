@@ -2,20 +2,21 @@
     /* background-color: teal */
 }
 
-.place-filter label {
-    font-size: 30px;
-    font-weight: 500;
+.place-filter-btns{
+    margin-left:10px;
 }
 
 .place-filter input {
-    font-size: 20px;
+    font-size: 17px;
+    font-weight: 500;
+    font-size: inherit;
     font-weight: 500;
     padding: 7px;
-    width: 63%;
+    width: 58%;
 }
 
 .filter-btn {
-    padding: 12px 16px;
+    padding: 9px 10px;
     background-color: #f1f1f1;
 }
 
@@ -38,7 +39,7 @@
 }
 
 .place-preview-content {
-    font-size: 22px;
+    font-size: 17px;
     display: flex;
     justify-content: space-between;
     /* margin:10px 0; */
@@ -51,11 +52,13 @@
     font-weight: 500;
 }
 
-.place-preview .trash {
+.place-preview .size-optimize {
     font-size: 0.9em;
     padding: 0;
 }
-
+.place-preview .trash:hover {
+    color:rgb(194, 18, 18);
+}
 .place-preview .place-name {
     margin-left: 10px;
 }
@@ -67,6 +70,9 @@
     border-bottom:1px solid gray; */
 }
 
+.places-list {
+    margin-top:20px;
+}
 .places-list-content {
     display: flex;
     flex-direction: column;
@@ -84,7 +90,7 @@
 
 .map-controller-buttons {
     transition: all 0.2s ease-in-out;
-    font-size: 20px;
+    font-size: inherit;
     padding: 7px;
     border-radius: 4px;
 }
@@ -132,7 +138,7 @@
 
 
 .map-controller-buttons:hover {
-    /* background-color:#dadada; */
+    background-color:transparent;
     color: rgb(34, 112, 230);
 }
 
@@ -156,12 +162,12 @@
     padding: 5px;
 }
 
-.info-windows-content p {
-    font-size: 20px;
+.info-windows-content {
+    font-size: 17px;
 }
 
 .map-controller {
-    width: 450px;
+    width: 350px;
     padding: 20px;
     background-color: white;
     border-radius: 4px;
@@ -185,7 +191,7 @@
 
 .place-add-wrapper {
     margin-left: 40px;
-    left: 450px;
+    left: 350px;
 }
 
 .place-app {
@@ -206,9 +212,9 @@
 
 .place-add #add-address {
     /* width:400px; */
-    width: 500px;
+    width: 400px;
     padding: 7px;
-    font-size: 23px;
+    font-size: 17px;
 }
 
 .form-place-add .sub {
@@ -235,4 +241,37 @@
     margin: 10px 0;
 }
 
-/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+/* %%%media query%%%% */
+/* laptop */
+@media only screen and (max-width: 1330px) {
+    .place-add-wrapper {
+        margin-left: 30px;
+        left: 300px;
+    }
+    .map-controller {
+        width: 300px;
+        /* padding: 20px;
+        background-color: white;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+        resize: both;
+        overflow: auto; */
+    }
+    .place-add #add-address {
+        /* width:400px; */
+        width: 300px;
+        /* padding: 7px;
+        font-size: 23px; */
+    }
+    .place-filter input {
+        /* font-size: inherit;
+        font-weight: 500;
+        padding: 7px; */
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .place-filter{
+        
+        flex-direction: column;
+    }
+}

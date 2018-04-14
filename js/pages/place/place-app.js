@@ -11,7 +11,7 @@ import eventBus, { USR_MSG_DISPLAY, DEL_PLACE, ADD_PLACE, ADD_TEMP_PLACE,UPDATE_
 
 export default {
     created() {
-        eventBus.$emit(USR_MSG_DISPLAY, { txt: 'places', type: 'success' });
+        
         eventBus.$on(DEL_PLACE, placeId => {
             // console.log('placeId',placeId);
             placeService.deletePlace(placeId)
@@ -48,11 +48,11 @@ export default {
                     console.log('Added Temp Place');
                     console.log('res is', res)
                     this.places = res;
-                    eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Added Temp Place', type: 'success' });
+                    // eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Added Temp Place', type: 'success' });
                 })
                 .catch(err => {
 
-                    eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Temp Place Was Not Added', type: 'fail' });
+                    // eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Temp Place Was Not Added', type: 'fail' });
                 })
         })
         eventBus.$on(UPDATE_PLACE, place => {
@@ -107,8 +107,8 @@ export default {
     },
     template: `<section class="place-app">
     
-        
-                    <div class="map-features map-controller">
+            <div class="map-features">
+                    <div class=" map-controller">
                         <place-filter @filtered="setFilter"></place-filter>
                         <transition name="slide-fade " :duration="2000">
         
@@ -116,7 +116,7 @@ export default {
                         </transition>
 
                     </div>
-       
+            </div>
                      <div class=" map-features place-add-wrapper">
                             <place-add class="place-add"></place-add>
                      </div>

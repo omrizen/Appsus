@@ -6,29 +6,6 @@ import eventBus, { ADD_PLACE } from './event-bus.service.js'
 
 var map;
 
-// locService.getLocs()
-//     .then(locs => console.log('locs', locs))
-
-
-// var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-
-// var icons = {
-//     parking: {
-//         icon: iconBase + 'parking_lot_maps.png'
-//     },
-//     library: {
-//         icon: iconBase + 'library_maps.png'
-//     },
-//     info: {
-//         icon: iconBase + 'info-i_maps.png'
-//     },
-//     political : {
-//         icon: iconBase + 'info-i_maps.png'
-
-//     }
-// };
-
-
 
 
 // function setPrevMarker(marker) {
@@ -56,12 +33,11 @@ function getMap(lat = 32.0749831, lng = 34.9120554) {
 
 
 }
-function addMarker(loc = { lat: 32.0749831, lng: 34.9120554 }, icon) {
-    let remembericon = 'http://www.myiconfinder.com/uploads/iconsets/64-64-f900504cdc9f243b1c6852985c35a7f7.png'
+function addMarker(loc = { lat: 32.0749831, lng: 34.9120554 }, icon='https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png') {
     var marker = new google.maps.Marker({
         position: loc,
         map: map,
-        icon:  icon ||remembericon,
+        icon:  {url : icon,scaledSize: new google.maps.Size(50, 50)},
         title: 'Hello World!'
     });
     return marker;
@@ -75,18 +51,11 @@ function autoCompleteInput() {
 
     google.maps.event.addListener(autocomplete, 'place_changed', () => {
         console.log('changed!');
-        // console.log('autpcomplete:',autocomplete);
+       
         choseSearchPlace(autocomplete.getPlace());
 
-        // setTimeout(() => {
-        //     document.querySelector(".form-place-add .sub").click();
-
-        // },0)
-        // return autocomplete;
-        // console.log(autoCompletePlace)
-
     })
-    // console.log(autoCompletePlace);
+   
     return res;
 
 }

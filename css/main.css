@@ -5,6 +5,13 @@
 @import './email.css';
 @import './place.css';
 @import './keeper.css';
+/* <-------media queries --------> */
+@import './media-queries/place/laptop.css';
+@import './media-queries/place/narrow.css';
+@import './media-queries/place/mobile.css';
+/* @import './media-queries/place/desktop.css'; */
+
+
 
 .gothic {
     font-family: 'Gothic';
@@ -18,8 +25,8 @@
 }
 
 header{
-    background-color: lightblue;
-    background-image: url(../img/cloud.png);
+    /* background-color: lightblue;
+    background-image: url(../img/cloud.png); */
     color: #fff;
     text-align: center;
  }
