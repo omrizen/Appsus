@@ -41,9 +41,9 @@ export default {
             <span><i class="fas fa-map-marker-alt"></i><span class="place-name">{{place.name}}</span></span>
         <div class="place-controllers">
             <span v-show="active" >
-                <button class="btn-clear trash map-controller-buttons"  @click.stop="emitDel"><i class="far fa-trash-alt"></i></button>
+                <button class="btn-clear size-optimize trash map-controller-buttons"  @click.stop="emitDel"><i class="far fa-trash-alt"></i></button>
             </span>
-            <button class="btn-clear map-controller-buttons" v-if="place.temp" @click.stop="emitAddPlace"><i class="fas fa-plus"></i></button>
+            <button class="btn-clear size-optimize map-controller-buttons" v-if="place.temp" @click.stop="emitAddPlace"><i class="fas fa-plus"></i></button>
             </div>
         </section>
     `,   

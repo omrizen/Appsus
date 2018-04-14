@@ -2,12 +2,14 @@ import placeService from '../../services/place.service.js'
 
 export default {
     template:`
-    <section class="place-filter">
-        <label>
+    <section class="place-filter flex wrap align-center">
+        
             <input type="text" v-model="filter.str" @input="emitFilter" placeholder="Search Saved Places">
-        </label>
+        
+        <div class="place-filter-btns">
         <button class="btn-clear filter-btn" :class="{activeFilter: filter.byName}" @click="filterByName(true)">Name</button>
         <button class="btn-clear filter-btn" :class="{activeFilter: !filter.byName}" @click="filterByName(false)">Tags</button>
+        </div>
     </section>
     `,
     data() {

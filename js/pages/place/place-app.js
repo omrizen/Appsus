@@ -11,7 +11,7 @@ import eventBus, { USR_MSG_DISPLAY, DEL_PLACE, ADD_PLACE, ADD_TEMP_PLACE,UPDATE_
 
 export default {
     created() {
-        eventBus.$emit(USR_MSG_DISPLAY, { txt: 'places', type: 'success' });
+        
         eventBus.$on(DEL_PLACE, placeId => {
             // console.log('placeId',placeId);
             placeService.deletePlace(placeId)
@@ -25,7 +25,7 @@ export default {
 
                     eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Place Was Not Deleted', type: 'fail' });
                 })
-        })
+        }),
 
         eventBus.$on(ADD_PLACE, place => {
             // console.log('placeId',placeId);
@@ -40,7 +40,7 @@ export default {
 
                     eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Place Was Not Added', type: 'fail' });
                 })
-        })
+        }),
         eventBus.$on(ADD_TEMP_PLACE, place => {
             console.log(' place-app entered add temp place')
             placeService.addTempPlace()
@@ -48,13 +48,13 @@ export default {
                     console.log('Added Temp Place');
                     console.log('res is', res)
                     this.places = res;
-                    eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Added Temp Place', type: 'success' });
+                    // eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Added Temp Place', type: 'success' });
                 })
                 .catch(err => {
 
-                    eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Temp Place Was Not Added', type: 'fail' });
+                    // eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Temp Place Was Not Added', type: 'fail' });
                 })
-        })
+        }),
         eventBus.$on(UPDATE_PLACE, place => {
             console.log('place-app entered Update place',place)
             placeService.UpdatePlace(place)
@@ -68,7 +68,9 @@ export default {
 
                     eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Place Was Not Updated', type: 'fail' });
                 })
-        })
+        }),
+
+       
 
         placeService.renderMap()
             .then(res => {
@@ -107,8 +109,9 @@ export default {
     },
     template: `<section class="place-app">
     
-        
-                    <div class="map-features map-controller">
+            <div class="map-features flex flex-column ">
+                <div class="map-controller-wrapper open-controllers">
+                    <div class=" map-controller">
                         <place-filter @filtered="setFilter"></place-filter>
                         <transition name="slide-fade " :duration="2000">
         
@@ -116,7 +119,15 @@ export default {
                         </transition>
 
                     </div>
-       
+                </div>
+                    <div class="button-wrapper">
+                    <button class="map-controllers-toggle">Controllers
+                        <span class="arrow">
+                            <i class="fas fa-arrow-up"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
                      <div class=" map-features place-add-wrapper">
                             <place-add class="place-add"></place-add>
                      </div>

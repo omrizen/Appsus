@@ -206,9 +206,9 @@ function addMarkerAndPush(place) {
 
 
 function createSliderHtml(photos) {
-    let str = '<div class="w3-content w3-section" style="width:500px;max-width:500px">'
+    let str = '<div class="w3-content w3-section" style="width:300px">'
     photos.forEach(photo => {
-        str += `<img class="mySlides" src="${photo}" style="width:100%;height:300px;" />`
+        str += `<img class="mySlides" src="${photo}" style="width:100%;height:200px;" />`
     });
     str += '</div>';
     console.log(str);
@@ -227,7 +227,7 @@ function addServiceMarker(place) {
         var content = `
         <div class="info-windows-content">
             
-            <h1 class="firstHeading" class="firstHeading">${place.name}</h1>
+            <h3 class="firstHeading" class="firstHeading">${place.name}</h3>
 
             <div class="bodyContent">
             <p>${place.desc}</p>
@@ -314,7 +314,7 @@ function addEditButtonListener() {
                         var content = `
                      <div class="edit-place-info-window">
 
-                        <h1 class="edit-place-title">Edit</h1>
+                        <h3 class="edit-place-title">Edit</h3>
                         <label>Name:
                         <input id="edit-place-name" value="${place.name}" </input>
                         </label>
@@ -342,7 +342,7 @@ function addEditButtonListener() {
                         var content = `
                 <div class="edit-place-info-window">
                         <div class="flex flex-column space-between align-center">
-                            <h1 class="add-place-photo-title">Add Picture</h1>
+                            <h3 class="add-place-photo-title">Add Picture</h3>
                             <label>Url: 
                             <input id="img-url-upload" type='text' placeholder="Enter Url" style="padding:7px;" />
                             </label>

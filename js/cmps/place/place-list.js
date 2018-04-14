@@ -5,7 +5,7 @@ import eventBus, {USR_MSG_DISPLAY} from '../../services/event-bus.service.js'
 export default {
     props: ['places'],
     template: `
-        <section class="section places-list">
+        <section class="places-list">
             <ul class="places-list-content">
                 <h2>Your Places</h2>
  
@@ -26,8 +26,23 @@ export default {
         }
     },
     created() {
+        document.querySelector('.map-controllers-toggle').addEventListener('click', (ev) => {
+            document.querySelector('.map-controller-wrapper').classList.toggle('open-controllers');
+            let isContentOpen = document.querySelector('.map-controller-wrapper').classList.contains('open-controllers');
+            let elArrow = document.querySelector('.arrow');
+            if(isContentOpen) {
+                elArrow.innerHTML = '<i class="fas fa-arrow-up"></i>'
+            } else {
+                elArrow.innerHTML = '<i class="fas fa-arrow-down"></i>'
+                
+            }
+          
+            
+        }),
         console.log('place-list places',this.places)
         placeService.renderMarkers(this.places);
+
+        
     },
     methods :{
         selected(placeId){
