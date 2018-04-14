@@ -6,13 +6,15 @@ export default {
     props: ['places'],
     template: `
         <section class="section places-list">
-            <ul>
-                <h2>places list</h2>
-                <li class="place-preview" :class="{active: activeClass === idx}" v-bind:class="idx" @click="activeClass = idx;selected(place.id)" v-for="(place,idx) in places">
-                <place-preview :place="place" @delEvent="deletePlace"></place-preview>
-                <!-- <p>asas</p> -->
+            <ul class="places-list-content">
+                <h2>Your Places</h2>
+ 
+                <li class="place-preview" :class="{temp: place.temp, active: activeClass === idx}"   @click="activeClass = idx;selected(place.id)"  v-for="(place,idx) in places">
+                    <place-preview class="place-preview-content" :place="place" @delEvent="deletePlace"></place-preview>
+                    <!-- <p>asas</p> -->
                 </li>
-    
+                
+          
             </ul>
             
         </section>
@@ -29,10 +31,10 @@ export default {
     },
     methods :{
         selected(placeId){
-            console.log('clicked place',placeId);
+            // console.log('clicked place',placeId);
             placeService.chosePlace(placeId)
             .then(res => {
-                console.log('Marked Place');
+                // console.log('Marked Place');
                
                 eventBus.$emit(USR_MSG_DISPLAY, {txt:'Marked Place',type:'success'});
             })

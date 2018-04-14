@@ -2,12 +2,42 @@ import { GoogleMapsApi } from './gmap.class.js';
 import locService from './loc.service.js'
 import placeService from './place.service.js'
 import utilService from './util.service.js'
-
+import eventBus, { ADD_PLACE } from './event-bus.service.js'
 
 var map;
 
 // locService.getLocs()
 //     .then(locs => console.log('locs', locs))
+
+
+// var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+
+// var icons = {
+//     parking: {
+//         icon: iconBase + 'parking_lot_maps.png'
+//     },
+//     library: {
+//         icon: iconBase + 'library_maps.png'
+//     },
+//     info: {
+//         icon: iconBase + 'info-i_maps.png'
+//     },
+//     political : {
+//         icon: iconBase + 'info-i_maps.png'
+
+//     }
+// };
+
+
+
+
+// function setPrevMarker(marker) {
+//     console.log('setPrevMarker');
+//     if (prvSearchMarker) {
+//         prvSearchMarker.setMap(null);
+//     }
+//     prvSearchMarker = marker;
+// }
 
 function getMap(lat = 32.0749831, lng = 34.9120554) {
 
@@ -26,11 +56,12 @@ function getMap(lat = 32.0749831, lng = 34.9120554) {
 
 
 }
-function addMarker(loc = { lat: 32.0749831, lng: 34.9120554 }, icon = 'http://www.myiconfinder.com/uploads/iconsets/64-64-f900504cdc9f243b1c6852985c35a7f7.png') {
+function addMarker(loc = { lat: 32.0749831, lng: 34.9120554 }, icon) {
+    let remembericon = 'http://www.myiconfinder.com/uploads/iconsets/64-64-f900504cdc9f243b1c6852985c35a7f7.png'
     var marker = new google.maps.Marker({
         position: loc,
         map: map,
-        icon: icon,
+        icon:  icon ||remembericon,
         title: 'Hello World!'
     });
     return marker;
@@ -63,17 +94,32 @@ function autoCompleteInput() {
 function choseSearchPlace(placeAtcp) {
     console.log('map-service-place', placeAtcp);
     var place = {
-        
+
         id: utilService.makeid(4),
         name: placeAtcp.name,
-        // desc: 'desc' + utilService.getRandomInt(30, 40),
+        desc: placeAtcp.formatted_address,
         lat: placeAtcp.geometry.location.lat(),
         lng: placeAtcp.geometry.location.lng(),
-        tag: placeAtcp.types,
-        photos: placeAtcp.photos
+        tags: placeAtcp.types,
+        serverphotos: placeAtcp.photos,
+        temp: true,
+        icon: placeAtcp.icon,
+        photos: []
     }
-    console.log(place)
-    
+
+    placeService.findTempMarker()
+        .then((marker) => {
+            placeService.deleteTempPlace()
+                .then(() => {
+
+                    var marker = placeService.addMarkerAndPush(place)
+                    triggerMarker(marker);
+                    map.setCenter(new google.maps.LatLng(place.lat, place.lng));
+                    setMapZoom();
+                    eventBus.$emit(ADD_PLACE, place);
+                })
+        })
+
 }
 
 google.maps.event.addDomListener(window, 'load', autoCompleteInput);
@@ -90,7 +136,7 @@ function setMapCenter(lat, lng) {
 
 function setMapZoom(zoom = 15) {
     if (map.getZoom() < zoom) map.setZoom(zoom);
-    console.log('map-zoom', map.getZoom())
+    // console.log('map-zoom', map.getZoom())
 }
 
 
@@ -105,6 +151,6 @@ export default {
     triggerMarker,
     setMapCenter,
     autoCompleteInput,
-    setMapZoom
+    setMapZoom,
 }
 

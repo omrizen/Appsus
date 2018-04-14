@@ -1,11 +1,171 @@
-.place-app{
+.place-app {
     /* background-color: teal */
-    
+}
+.place-filter label {
+    font-size: 30px;
+    font-weight: 500;
+}
+.place-filter input {
+    font-size: 20px;
+    font-weight: 500;
+    padding: 7px;
+    width: 70%;
 }
 .place-preview {
-    border:1px solid black;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    border-radius: 4px;
 }
 
-.active {
-    background-color: rgba(8, 192, 8, 0.568);
+.place-preview:hover {
+    background-color: #f1f1f1;
 }
+
+.place-preview-content {
+    font-size: 22px;
+    display: flex;
+    justify-content: space-between;
+    /* margin:10px 0; */
+    /* border-radius: 4px; */
+    padding: 5px;
+}
+
+.place-preview.active {
+    background-color: #f1f1f1;
+    font-weight: 500;
+}
+
+.place-preview .trash {
+    font-size: 0.9em;
+    padding: 0;
+}
+
+.place-preview .place-name {
+    margin-left: 10px;
+}
+
+.place-preview.temp {
+    background-color: rgba(41, 174, 226, 0.384);
+    order: -1;
+    /* margin-bottom: 20px;
+    border-bottom:1px solid gray; */
+}
+
+.places-list-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.temp.active {
+    background-color: rgba(48, 202, 9, 0.507)
+}
+
+.temp-title {
+    margin-top: 40px;
+    /* margin:0; */
+    /* margin: 10px 0; */
+}
+
+.map-controller-buttons {
+    transition: all 0.2s ease-in-out;
+    font-size: 20px;
+    padding: 7px;
+    border-radius: 4px;
+}
+
+.edit-marker {}
+
+.map-controller-buttons:hover {
+    /* background-color:#dadada; */
+    color: rgb(34, 112, 230);
+}
+
+.edit-place {
+    /* background-color: blue; */
+}
+
+.edit-place-info-window {
+    z-index: 12;
+    /* background-color: red; */
+}
+
+.edit-place-info-window label {
+    display: block;
+    margin: 10px 0;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.edit-place-info-window input {
+    padding: 5px;
+}
+
+.info-windows-content p {
+    font-size: 20px;
+}
+
+.map-controller {
+    width: 450px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+    resize: both;
+    overflow: auto;
+}
+
+.map-features {
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    margin: 30px;
+    margin-top: 50px;
+}
+
+.place-app {
+    font-family: Roboto, Arial, sans-serif;
+}
+
+.place-add {
+    margin-left: 40px;
+}
+
+.place-add .search-bar {
+    position: relative;
+}
+.place-add .search-bar-wrapper {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 4px 15px -5px rgba(0, 0, 0, 0.0);
+
+}
+
+.place-add #add-address {
+    /* width:400px; */
+    width: 500px;
+    padding: 7px;
+    font-size: 23px;
+}
+
+.form-place-add .sub {
+    height: 100%;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #4a8cf6;
+    font-size:17px;
+    color:white;
+    padding: 0px 40px;
+    text-shadow: 10px 10px 10px #000;
+    /* width: 300px; */
+}
+
+.pac-item {
+    /* font-size: 40px; */
+}
+
+.pac {}
+
+
+
+
+/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */

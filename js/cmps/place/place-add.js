@@ -3,15 +3,18 @@ import mapService from '../../services/map.service.js'
 
 export default {
     template:`
-    <section class="place-add">
-        <h1>Edit</h1>
+    <section class="">
+        <div class="search-bar-wrapper">
+        <div class="search-bar">
         <form class="form-place-add" @submit.prevent="searchMarker">
-            <label>Add Place:
+            <label>
             <!-- <input id="add-address" v-gmaps-searchbox="place" type="text" v-model="place.name" > -->
             <input id="add-address" type="text"  @click="searchMarker">
             </label>
-            <button class="sub" type="submit"><i class="fas fa-search"></i></button>
+            <button class="btn-clear sub" type="submit" @click="searchMarker"><i class="fas fa-search"></i></button>
         </form>
+        </div>
+        </div>
     </section>
     `,
     data() {
