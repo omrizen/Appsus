@@ -106,9 +106,9 @@ export default {
         }
     },
     template: `<section class="place-app">
-    <div class="map-features-wrapper">
-        <div class="map-features">
-                    <div class="map-controller">
+    
+        
+                    <div class="map-features map-controller">
                         <place-filter @filtered="setFilter"></place-filter>
                         <transition name="slide-fade " :duration="2000">
         
@@ -116,9 +116,10 @@ export default {
                         </transition>
 
                     </div>
-                    <place-add class="place-add"></place-add>
-        </div>
-    </div>
+       
+                     <div class=" map-features place-add-wrapper">
+                            <place-add class="place-add"></place-add>
+                     </div>
                     <div id="map" style="width: 100%; height: 100vh"></div>
                 </section>`,
     components: {

@@ -28,8 +28,20 @@ function query(filter = null) {
             } else {
                 console.log('Places: ', places);
                 console.log('filter', filter)
-                if (filter === null) return places;
-                else return places.filter(place => place.name.includes(filter.byName))
+                if (filter === null || !filter.str) return places;
+                else return places.filter(place => {
+                    if(filter.byName){
+                        let loweredCaseName = place.name.toLowerCase();
+                        return loweredCaseName.includes(filter.str.toLowerCase())
+                    }
+                    else{
+            
+                       return place.tags.some((tag) => {
+                           let loweredCaseTag = tag.toLowerCase();
+                        return loweredCaseTag.indexOf(filter.str.toLowerCase())>=0 })
+                    
+                    }
+                })
             }
         })
 }
@@ -213,12 +225,11 @@ function addServiceMarker(place) {
             photosSliderHtml = createSliderHtml(place.photos);
         }
         var content = `
-            <div class="info-windows-content">
+        <div class="info-windows-content">
             
-            <div class="siteNotice">
-            </div><h1 class="firstHeading" class="firstHeading">${place.name}</h1>
+            <h1 class="firstHeading" class="firstHeading">${place.name}</h1>
+
             <div class="bodyContent">
-            <p><b>Place: ${place.name}</b></p>
             <p>${place.desc}</p>
             <p>Tags: ${place.tags}</p>
             <p>
@@ -229,15 +240,12 @@ function addServiceMarker(place) {
             
             </p>
             ${photosSliderHtml}
-            <button class="btn-clear map-controller-buttons edit-marker" data-method="marker-edit" value="${place.id}"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+            <button title="Edit Place" class="btn-clear map-controller-buttons edit-marker" data-method="marker-edit" value="${place.id}"><i class="fas fa-pencil-alt"></i></button>
             
-            <button  class="btn-clear map-controller-buttons edit-marker" data-method="marker-add-photo" value="${place.id}"><i class="fas fa-camera"></i></button>
+            <button title="Add Photo"  class="btn-clear map-controller-buttons edit-marker" data-method="marker-add-photo" value="${place.id}"><i class="fas fa-camera"></i></button>
            
-            <!-- <div class="w3-content w3-section" style="display:flex;justify-content:center;max-width:500px">
-            <img class="mySlides" src="https://www.w3schools.com/w3css/img_la.jpg" style="width:100%">
-            <img class="mySlides" src="https://www.w3schools.com/w3css/img_ny.jpg" style="width:100%">
-            <img class="mySlides" src="https://www.w3schools.com/w3css/img_chicago.jpg" style="width:100%">
-            </div> -->
+        </div>
       `;
         mapService.infowindow.setContent(content);
         mapService.infowindow.open(mapService.map, marker);
@@ -304,57 +312,60 @@ function addEditButtonListener() {
                     // console.log('marker=',marker.getPosition().lat())
                     if (action === 'marker-edit') {
                         var content = `
-                <div class="edit-place-info-window">
-            <h1 class="edit-place-title">Edit</h1>
-            <label>Name:
-            <input id="edit-place-name" value="${place.name}" </input>
-            </label>
-            <label>Description:
-            <input id="edit-place-desc" value="${place.desc}" </input>
-            </label>
-            <label>Tags:
-            <input id="edit-place-tags" value="${place.tags}" </input>
-            </label>
-            <label>lat:
-            <input id="edit-place-lat" value="${place.lat}" </input>
-            </label>
-            <label>lng:
-            <input id="edit-place-lng" value="${place.lng}" </input>
-            </label>
-            
-            <button class=" edit-marker-save" data-method="marker-edit" value="${place.id}">Save</button>
-            <button class=" edit-marker-cancel" data-method="marker-add-photo" value="${place.id}">Cancel</button>
-            
-            </div>
-         
-      `;
+                     <div class="edit-place-info-window">
+
+                        <h1 class="edit-place-title">Edit</h1>
+                        <label>Name:
+                        <input id="edit-place-name" value="${place.name}" </input>
+                        </label>
+                        <label>Description:
+                        <input id="edit-place-desc" value="${place.desc}" </input>
+                        </label>
+                        <label>Tags:
+                        <input id="edit-place-tags" value="${place.tags}" </input>
+                        </label>
+                        <label>lat:
+                        <input id="edit-place-lat" value="${place.lat}" </input>
+                        </label>
+                        <label>lng:
+                        <input id="edit-place-lng" value="${place.lng}" </input>
+                        </label>
+                        
+                        <button class="btn-clear edit-marker-save" data-method="marker-edit" value="${place.id}">Save</button>
+                        <button class="btn-clear edit-marker-cancel" data-method="marker-edit" value="${place.id}">Cancel</button>
+                        
+                     </div>
+                    
+                `;
                     }
                     else if (action === 'marker-add-photo') {
                         var content = `
-                        <div class="edit-place-info-window">
+                <div class="edit-place-info-window">
                         <div class="flex flex-column space-between align-center">
-                        <h1 class="add-place-photo-title">Add Picture</h1>
-                        <label>Url: 
-                    <input id="img-url-upload" type='text' placeholder="Enter Url" style="padding:7px;" />
-                    </label>
-                    <img id="myImg" src="" style="height:200 ;width:200"/>
-                    <div class="add-photo-buttons">
-                    <button class=" edit-marker-save" data-method="marker-add-photo" value="${place.id}">Save</button>
-                    <button class=" edit-marker-cancel" data-method="marker-add-photo" value="${place.id}">Cancel</button>
-                    </div>
-                    </div>
-                    </div>
+                            <h1 class="add-place-photo-title">Add Picture</h1>
+                            <label>Url: 
+                            <input id="img-url-upload" type='text' placeholder="Enter Url" style="padding:7px;" />
+                            </label>
+                            <img id="myImg" src="" />
+                            <div class="edit-buttons">
+                                <button class="btn-clear edit-marker-save" data-method="marker-add-photo" value="${place.id}">Save</button>
+                                <button class="btn-clear edit-marker-cancel" data-method="marker-add-photo" value="${place.id}">Cancel</button>
+                            </div>
+                        </div>
+                </div>
               `;
                     }
                     mapService.infowindow.setContent(content);
                     mapService.infowindow.open(mapService.map, marker);
-                    mapService.infowindow.setZIndex(1000);
+                    
                     addSaveButtonListener();
                     addCancelButtonListener();
                     if (action === 'marker-add-photo') {
                     document.querySelector('#img-url-upload').addEventListener('input', function () {
                         console.log('load Image')
                         var img = document.querySelector('#myImg');  // $('img')[0]
+                        img.style.width = '400px';
+                        img.style.height = 'auto';
                         img.src = document.querySelector('#img-url-upload').value; // set src to file url
 
 
@@ -368,9 +379,6 @@ function addEditButtonListener() {
 
 
 }
-
-
-
 
 
 
