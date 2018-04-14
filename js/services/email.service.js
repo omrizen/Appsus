@@ -2,7 +2,6 @@ import utilService from './util.service.js'
 import storageService from './storage.service.js'
 import eventBus, { USR_MSG_DISPLAY } from './event-bus.service.js'
 
-
 // const KEY = 'appKey';
 var emailsDB = [];
 
@@ -10,6 +9,7 @@ const KEY = 'emailsAppKey'
 const EMAILS_NUM = 3;
 
 function query(filter = null, isSortByDate = true) {
+    var unRead=0;
     return storageService.load(KEY)
         .then(emails => {
             if (!emails) {
@@ -32,6 +32,7 @@ function query(filter = null, isSortByDate = true) {
                     return emails;
                 }
                 else {
+                    // filter.byContent = filter.byContent.toLowerCase();
                     emails = emails.filter(email => {
                         return getEmailFilter(email, filter);
                     })
@@ -64,6 +65,7 @@ function getSorted(isSortByDate, emails) {
 
 
 function getEmailFilter(email, filter) {
+    var unRead=0;
     var resFilterRead
     if (filter.byRead === 'read') {
         console.log('read');
@@ -71,9 +73,8 @@ function getEmailFilter(email, filter) {
     } else if (filter.byRead === 'unread') {
         resFilterRead = (email.read === false);
     }
-
     else resFilterRead = true;
-
+    
 
     return resFilterRead && email.content.includes(filter.byContent)
 }
@@ -88,24 +89,6 @@ function deleteEmail(emailId) {
             return storageService.store(KEY, emails);
         })
 }
-
-
-
-// function addEmail(id,review) {
-//     return storageService.load(KEY)
-//         .then(emails => {
-//             var emailIdx = emails.findIndex(email => email.id === emailId);
-//             emails.splice(emailIdx, 1);
-//             return storageService.store(KEY, emails);
-//         })
-// }
-//     var book = booksDB.find(book => id === book.id)
-//     book.reviews.unshift(review)
-//     storageService.store(BOOKS_KEY, booksDB)
-//     eventBus.$emit(USR_MSG_DISPLAY, {txt:'Review added',type:'success'});
-//     return Promise.resolve(review)
-// }
-
 
 function generateEmails(length) {
     var emails = [];
@@ -140,6 +123,7 @@ function saveEmail(email) {
                 email.from = 'omrize.gmail.com'
                 email.read=false;
                 emails.push(email);
+                eventBus.$emit(USR_MSG_DISPLAY, { txt: 'email was sent', type: 'success' });
             }
             return storageService.store(KEY, emails);
         });
@@ -153,7 +137,7 @@ function generateEmail() {
         from: utilService.getLoremIpsum(1) + '.gmail.com',
         to: utilService.getLoremIpsum(1) + 'gmail.com',
         subject: utilService.getLoremIpsum(6),
-        content: utilService.getLoremIpsum(20),
+        content: utilService.getLoremIpsum(60,20),
         sentTime: utilService.getRandomInt(Date.now() - 10000000, Date.now()),
         read: false,
     }

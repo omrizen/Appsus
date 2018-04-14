@@ -9,11 +9,23 @@
     padding: 0.5em 1em;
 }
 
+.user-msg.email{
+    position: fixed;
+    min-width: 200px;
+    top: 200px;
+    right:250px;
+    color: #fff;
+    z-index: 100;
+    background-color: rgb(200, 243, 218);
+    padding: 0.5em 1em;
+    border-radius:10px;
+} 
+
 .user-msg button{
     float: right;
 }
 .user-msg.success {
-    background-color: lightgreen
+    background-color: rgb(131, 175, 131)
 }
 .user-msg.error {
     background-color: lightsalmon;

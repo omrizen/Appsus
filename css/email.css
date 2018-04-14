@@ -6,11 +6,16 @@
     box-sizing: border-box; 
 }
 
+.email-app {
+    margin-bottom:40px;
+}
+
 .email-list li:first-child {
     border-top:1px solid rgb(119, 115, 115);
     
 }
 .email-list  {
+    margin-top:20px;
     margin-bottom:20px;
     
 }
@@ -36,19 +41,26 @@
 
 
 
+
+
 .email-contents {
     /* width:200px; */
-    padding:20px 10px;
+    padding:5px 10px;
     
 }
 
 .email-preview p{
     margin-bottom:5px;
+    height:20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.email-preview subject{
-    margin-bottom:5px;
+.email-preview p.subject{
+    margin-bottom:0px;  
 }
+
+
 
 /* .content{
     color:rgb(145, 141, 141)
@@ -58,6 +70,8 @@
     /* width:200px; */
     margin-bottom:20px;
 }
+
+
 
 
 
@@ -71,15 +85,17 @@ button:focus{
 }
 
 button{
-
+    color:rgb(255, 255, 255);
     padding:5px;
     border-radius:5px;
     
     background-color:rgb(180, 183, 206)
 }
-.button{
-    background-color:rgb(180, 183, 206);
+
+button.compose{
+    background-color:rgb(169, 175, 223)
 }
+
  button:hover{
     cursor: pointer;
     background-color: rgb(147, 173, 175);
@@ -90,10 +106,10 @@ button{
 } */
 
 .email-sort {
-    width:200px;
+    width:240px;
 }
 .email-sort  button:focus{
-    background-color:green;
+    background-color:rgb(119, 180, 119);
     
 }
 
@@ -102,8 +118,13 @@ button{
     padding:0px;
 } */
 .email-filter input {
-   
     margin-left:20px;
+}
+
+.email-filter:focus {
+    outline:0;
+   
+    
 }
 
 .sortAndFilter{
@@ -111,6 +132,7 @@ button{
     margin-top:20px;
     /* margin:100px; */
 }
+
 
 .email-compose{
     margin-bottom:30px;
@@ -123,6 +145,71 @@ button{
     border :1px solid rgb(154, 149, 173);
     border-radius:5px;
 }
+
+.email-details{
+    margin-bottom:30px;
+    margin-top:30px;
+}
+.email-details .wrapper{
+    padding:20px;
+    border :1px solid rgb(154, 149, 173);
+    border-radius:5px;
+}
+
+.unread-count{
+    padding:5px;
+    border-radius: 2%;
+    margin-left:10px;
+    background-color:rgb(164, 192, 164);
+}
+
+@media (max-width: 820px) {
+    .unread-count{
+        display:none;
+    }
+
+    @media (max-width: 746px) {
+        .email-sort{
+            display:none
+
+        }
+        .email-details .from{
+            font-size:20px;
+        }
+        .email-details .subject{
+            font-size:25px;
+        }
+        .email-details span{
+            display:none;
+        }
+
+        .sortAndFilter{
+            justify-content: flex-start
+        }
+        .email-filter{
+            margin-left:40px;
+        }
+        .email-filter input{
+            width:120px;
+
+        }
+    } 
+
+    @media (max-width: 520px) {
+        .email-filter{
+            margin-left:20px;
+        }
+        .email-filter input{
+            width:120px;
+
+        }
+
+        
+            
+
+        
+      
+
 
 
 

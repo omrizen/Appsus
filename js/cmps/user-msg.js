@@ -12,7 +12,7 @@ export default {
     created() {
         eventBus.$on(USR_MSG_DISPLAY, msg => {
             this.msg = msg;
-            setTimeout(this.closeMsg, 3000);
+            setTimeout(this.closeMsg, 2000);
         })
         
     },
@@ -30,9 +30,8 @@ export default {
         }
     },
     template: `
-        <section v-if="msg" class="user-msg" :class="msgType">
-            <button @click="closeMsg">X</button>
-            <h1>{{msg.txt}}</h1>
+        <section v-if="msg" class="user-msg email" :class="msgType">
+            <p>{{msg.txt}}</p>
         </section>
     `,
 }

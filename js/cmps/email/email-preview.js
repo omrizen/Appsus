@@ -10,10 +10,10 @@ export default {
             if (emailDate === moment(Date.now()).format("MM/DD/YYYY")) {
                  return moment(this.email.sentTime).format('LT');  
             }
-            else return emailDate;
+            else return moment().startOf('day').fromNow(); 
         },
         content(){
-            return this.email.content.substring(0,50);
+            return this.email.content.substring(0,115);
         }  
     },
     methods : {
@@ -29,8 +29,7 @@ export default {
     template: `
         <section class="email-preview" >
             <div class="email-contents" :class="{read: email.read}">
-            <p class="time">{{time}}</p> 
-                <p class="from">{{email.from}}</p>
+            <p class="time">{{time}} &nbsp&nbsp{{email.from}}</p> 
                 <p class="subject"><b>{{email.subject}}</b></p>
                 <p class="content">{{content}}</p>
                    
