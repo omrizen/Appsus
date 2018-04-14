@@ -85,7 +85,7 @@
 }
 
 .edit-place-info-window {
-    z-index: 12;
+    z-index: 12 !important;
     /* background-color: red; */
 }
 
@@ -121,6 +121,9 @@
     flex-direction: row;
     margin: 30px;
     margin-top: 50px;
+}
+.map-features-wrapper{
+    position: absolute;
 }
 
 .place-app {
@@ -165,6 +168,10 @@
 
 .pac {}
 
+
+.edit-place-info-window * {
+    margin: 10px 0;
+}
 
 
 

@@ -8,7 +8,7 @@ const KEY = 'placesAppKey';
 
 var markers = [];
 window.markers = markers;
-
+var carouselInterval;
 var prevMarker = null;
 
 function query(filter = null) {
@@ -107,6 +107,7 @@ function deleteTempPlace() {
 }
 
 function addPlace(place) {
+    clearInterval(carouselInterval);
     return storageService.load(KEY)
         .then(places => {
             console.log('before Place Push', place);
@@ -192,14 +193,14 @@ function addMarkerAndPush(place) {
 }
 
 
-function createSliderHtml (photos){
+function createSliderHtml(photos) {
     let str = '<div class="w3-content w3-section" style="width:500px;max-width:500px">'
     photos.forEach(photo => {
-       str +=`<img class="mySlides" src="${photo}" style="width:100%;height:300px;" />`
+        str += `<img class="mySlides" src="${photo}" style="width:100%;height:300px;" />`
     });
     str += '</div>';
     console.log(str);
-        return str;
+    return str;
 }
 
 function addServiceMarker(place) {
@@ -207,9 +208,9 @@ function addServiceMarker(place) {
     var marker = mapService.addMarker({ lat: place.lat, lng: place.lng }, place.icon)
     marker.addListener('click', () => {
         console.log('clicked marker', place.id);
-        let photosSliderHtml='';
-        if(place.photos) {
-           photosSliderHtml = createSliderHtml(place.photos);
+        let photosSliderHtml = '';
+        if (place.photos.length) {
+            photosSliderHtml = createSliderHtml(place.photos);
         }
         var content = `
             <div class="info-windows-content">
@@ -246,7 +247,10 @@ function addServiceMarker(place) {
 
         prevMarker = marker;
         addEditButtonListener();
-        carousel();
+        if (place.photos.length){ 
+            carousel();
+            carouselInterval = setInterval(carousel, 5000);
+        }
 
 
     })
@@ -265,15 +269,22 @@ function carousel() {
     myIndex++;
     if (myIndex > x.length) { myIndex = 1 }
     x[myIndex - 1].style.display = "block";
-    setTimeout(carousel, 5000); // Change image every 2 seconds
+     // Change image every 2 seconds
+
 }
 
 function addEditButtonListener() {
+
 
     let editMarketEls = document.querySelectorAll('.edit-marker');
 
     editMarketEls.forEach(el => {
         el.addEventListener('click', (ev) => {
+
+            console.log(carouselInterval)
+            clearInterval(carouselInterval);
+            console.log(carouselInterval)
+
             console.log('clicked', ev.currentTarget.value)
             var placeId = ev.currentTarget.value;
             console.log('placeId', placeId);
@@ -291,8 +302,8 @@ function addEditButtonListener() {
 
                     console.log('place=', place)
                     // console.log('marker=',marker.getPosition().lat())
-                    if(action === 'marker-edit'){
-                    var content = `
+                    if (action === 'marker-edit') {
+                        var content = `
                 <div class="edit-place-info-window">
             <h1 class="edit-place-title">Edit</h1>
             <label>Name:
@@ -318,14 +329,20 @@ function addEditButtonListener() {
          
       `;
                     }
-                    else if(action === 'marker-add-photo'){
+                    else if (action === 'marker-add-photo') {
                         var content = `
                         <div class="edit-place-info-window">
-                    <h1 class="edit-place-title">Add Pic</h1>
-                    <br><img id="myImg" src="" alt="your image" height=200 width=200>
-                    <input id="img-url-upload" type='text' />
+                        <div class="flex flex-column space-between align-center">
+                        <h1 class="add-place-photo-title">Add Picture</h1>
+                        <label>Url: 
+                    <input id="img-url-upload" type='text' placeholder="Enter Url" style="padding:7px;" />
+                    </label>
+                    <img id="myImg" src="" style="height:200 ;width:200"/>
+                    <div class="add-photo-buttons">
                     <button class=" edit-marker-save" data-method="marker-add-photo" value="${place.id}">Save</button>
                     <button class=" edit-marker-cancel" data-method="marker-add-photo" value="${place.id}">Cancel</button>
+                    </div>
+                    </div>
                     </div>
               `;
                     }
@@ -334,14 +351,15 @@ function addEditButtonListener() {
                     mapService.infowindow.setZIndex(1000);
                     addSaveButtonListener();
                     addCancelButtonListener();
-                    
-                    document.querySelector('#img-url-upload').addEventListener('input', function() {
+                    if (action === 'marker-add-photo') {
+                    document.querySelector('#img-url-upload').addEventListener('input', function () {
                         console.log('load Image')
-                            var img = document.querySelector('#myImg');  // $('img')[0]
-                            img.src = document.querySelector('#img-url-upload').value; // set src to file url
-                            
-                        
+                        var img = document.querySelector('#myImg');  // $('img')[0]
+                        img.src = document.querySelector('#img-url-upload').value; // set src to file url
+
+
                     });
+                }
 
                     return Promise.resolve();
                 })
@@ -352,8 +370,8 @@ function addEditButtonListener() {
 }
 
 
-    
-  
+
+
 
 
 function addSaveButtonListener() {
@@ -362,7 +380,7 @@ function addSaveButtonListener() {
         // console.log('clicked',ev.target.value)
         var placeId = ev.target.value;
         let action = ev.target.getAttribute('data-method');
-            console.log('method', action);
+        console.log('method', action);
         return storageService.load(KEY)
             .then(places => {
                 var placeIdx = places.findIndex(place => place.id === placeId);
@@ -371,14 +389,14 @@ function addSaveButtonListener() {
                 var marker = markers[placeIdx];
                 // console.log('place=',place)
                 // console.log('marker=',marker.getPosition().lat())
-                if(action === 'marker-edit'){
-                place.name = document.getElementById('edit-place-name').value;
-                place.desc = document.getElementById('edit-place-desc').value;
-                place.lat = +(document.getElementById('edit-place-lat').value);
-                place.lng = +(document.getElementById('edit-place-lng').value);
-                place.tags = document.getElementById('edit-place-tags').value;
+                if (action === 'marker-edit') {
+                    place.name = document.getElementById('edit-place-name').value;
+                    place.desc = document.getElementById('edit-place-desc').value;
+                    place.lat = +(document.getElementById('edit-place-lat').value);
+                    place.lng = +(document.getElementById('edit-place-lng').value);
+                    place.tags = document.getElementById('edit-place-tags').value;
                 }
-                else if(action === 'marker-add-photo'){
+                else if (action === 'marker-add-photo') {
                     var imgSrc = document.querySelector('#myImg').src;
                     place.photos.push(imgSrc);
                 }
@@ -411,6 +429,7 @@ function addCancelButtonListener() {
 
 }
 function chosePlace(placeId) {
+    clearInterval(carouselInterval);
     return storageService.load(KEY)
         .then(places => {
             var placeIdx = places.findIndex(place => place.id === placeId);

@@ -106,6 +106,7 @@ export default {
         }
     },
     template: `<section class="place-app">
+    <div class="map-features-wrapper">
         <div class="map-features">
                     <div class="map-controller">
                         <place-filter @filtered="setFilter"></place-filter>
@@ -117,6 +118,7 @@ export default {
                     </div>
                     <place-add class="place-add"></place-add>
         </div>
+    </div>
                     <div id="map" style="width: 100%; height: 100vh"></div>
                 </section>`,
     components: {
