@@ -2,16 +2,128 @@
     background-color:red;
 
 } */
+* {
+    box-sizing: border-box; 
+}
+
+.email-list li:first-child {
+    border-top:1px solid rgb(119, 115, 115);
+    
+}
+.email-list  {
+    margin-bottom:20px;
+    
+}
 
 .email-preview{
-    padding-bottom:5px;
-    border-radius:1px solid grey;
-    background-color:Red;
-    color:black; 
+    font-family: initial;
+    border-collapse: collapse;
+    /* margin-bottom:20px; */
+
+    
+    
+    border-bottom:1px solid rgb(119, 115, 115);
+    /* border-top:1px solid rgb(119, 115, 115);
+    border-radois-; :8px solid black; */
+    
+    background-color:#f3f2f2;
+    /* color:black; 
+    border: 3px solid blue; */
 }
 .email-details{
     color:black;
 }
-.read {
-    color: blue;
+
+
+
+.email-contents {
+    /* width:200px; */
+    padding:20px 10px;
+    
 }
+
+.email-preview p{
+    margin-bottom:5px;
+}
+
+.email-preview subject{
+    margin-bottom:5px;
+}
+
+/* .content{
+    color:rgb(145, 141, 141)
+} */
+
+.email-preview .from{
+    /* width:200px; */
+    margin-bottom:20px;
+}
+
+
+
+.read {
+    color:rgb(216, 159, 159);
+    
+}
+
+button:focus{
+    outline:0;
+}
+
+button{
+
+    padding:5px;
+    border-radius:5px;
+    
+    background-color:rgb(180, 183, 206)
+}
+.button{
+    background-color:rgb(180, 183, 206);
+}
+ button:hover{
+    cursor: pointer;
+    background-color: rgb(147, 173, 175);
+
+}
+/* p.button:hover {
+    background-color:red;
+} */
+
+.email-sort {
+    width:200px;
+}
+.email-sort  button:focus{
+    background-color:green;
+    
+}
+
+/* .email-filter{
+    margin:0px;
+    padding:0px;
+} */
+.email-filter input {
+   
+    margin-left:20px;
+}
+
+.sortAndFilter{
+    margin-bottom:20px;
+    margin-top:20px;
+    /* margin:100px; */
+}
+
+.email-compose{
+    margin-bottom:30px;
+    margin-top:30px;
+    
+    /* padding:10px; */
+}
+.email-compose form{
+    padding:20px;
+    border :1px solid rgb(154, 149, 173);
+    border-radius:5px;
+}
+
+
+
+

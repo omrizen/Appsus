@@ -15,10 +15,9 @@ export default {
         }
     },
     template: `
-        <section class="container emails-info">
-           <h1> emails-list </h1>
+        <section class="container email-list">
             <ul>
-                <li class="email-preview" v-for="email in emails">
+                <li  v-for="email in emails">
                     <email-preview :email="email" @click.native="emitSelected(email.id)"></email-preview>
                 </li>
             </ul>

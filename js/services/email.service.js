@@ -45,8 +45,8 @@ function query(filter = null, isSortByDate = true) {
 function getSorted(isSortByDate, emails) {
     if (isSortByDate) {
         emails.sort((email1, email2) => {
-            if (email1.sentTime > email2.sentTime) return 1;
-            else if (email1.sentTime < email2.sentTime) return -1
+            if (email1.sentTime < email2.sentTime) return 1;
+            else if (email1.sentTime > email2.sentTime) return -1
             else return 0;
         })
     }else{
@@ -135,8 +135,11 @@ function saveEmail(email) {
                 var emailIdx = emails.findIndex(currEmail => currEmail.id === email.id)
                 emails.splice(emailIdx, 1, email);
             } else {
-                // email.id = Date.now();
-                // cars.push(car);
+                email.id = utilService.makeid(10);
+                email.sentTime = Date.now();
+                email.from = 'omrize.gmail.com'
+                email.read=false;
+                emails.push(email);
             }
             return storageService.store(KEY, emails);
         });

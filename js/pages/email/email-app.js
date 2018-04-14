@@ -65,6 +65,11 @@ export default {
                     console.log(`email was deleted`);
                 })
         },
+        saveEmail(email){
+            emailService.saveEmail(email)
+            .then(() => this.getQuery());
+            
+        },
         getQuery() {
             emailService.query(this.filter, this.isSortByDate)
                 .then(emails => {
@@ -86,15 +91,19 @@ export default {
     },
 
     template: `<section class="email-app">
-                    <h1>email</h1>
-                    <button @click="composedEmail = true">compose</button>
-                    <button v-if="!selectedEmail" @click=sort(true)>sort by date</button>
-                    <button v-if="!selectedEmail" @click=sort(false)>sort by subject</button>
+                    
+                    <div v-if="!composedEmail"  class="flex sortAndFilter space-between align-center container" >
+                         <p class="button is-small"  @click="composedEmail = true">Compose</p> 
+                        <email-filter v-if="!selectedEmail" @filtered="setFilter"></email-filter>
+                        <div class="email-sort flex space-between" v-if="!selectedEmail">     
+                            <button   @click=sort(true)>sort by date</button>
+                            <button  @click=sort(false)>sort by subject</button>
+                        </div>
+                    </div>  
                     <!-- <button>sort by title </button> -->
                     <!-- <button @click="composeEmail"> compose </button> -->
-                    <email-compose   v-if="composedEmail"></email-compose> 
+                    <email-compose @save="saveEmail"  @close="composedEmail=false" v-if="composedEmail"></email-compose> 
                     <email-details v-if="selectedEmail" @deleteEmail="deleteEmail" :email="selectedEmail" @close="closeEmail"></email-details>
-                    <email-filter v-if="!selectedEmail" @filtered="setFilter"></email-filter>
                     <email-list v-if="!selectedEmail" :emails="emails"  @selected="selectEmail"></email-list>
                     
                 </section>`,

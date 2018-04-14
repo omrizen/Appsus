@@ -11,9 +11,10 @@ export default {
                  return moment(this.email.sentTime).format('LT');  
             }
             else return emailDate;
+        },
+        content(){
+            return this.email.content.substring(0,50);
         }  
-          
-        
     },
     methods : {
         //  displayTime (){
@@ -24,16 +25,19 @@ export default {
 
     },
 
+
     template: `
         <section class="email-preview" >
-            <div :class="{read: email.read}">
-                <p>{{time}}</p>
-                <h1>From:{{email.from}}</h1>
-                <h1>Subject:{{email.subject}}</h1>
-                <p>{{email.content}}</p>
-                <p>{{email.time}}</p>
+            <div class="email-contents" :class="{read: email.read}">
+            <p class="time">{{time}}</p> 
+                <p class="from">{{email.from}}</p>
+                <p class="subject"><b>{{email.subject}}</b></p>
+                <p class="content">{{content}}</p>
+                   
+                <!-- <p>{{email.time}}</p> -->
             </div>
            
         </section>
     `,
 }
+
