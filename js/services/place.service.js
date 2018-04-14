@@ -314,7 +314,7 @@ function addEditButtonListener() {
                         var content = `
                      <div class="edit-place-info-window">
 
-                        <h1 class="edit-place-title">Edit</h1>
+                        <h3 class="edit-place-title">Edit</h3>
                         <label>Name:
                         <input id="edit-place-name" value="${place.name}" </input>
                         </label>
@@ -342,7 +342,7 @@ function addEditButtonListener() {
                         var content = `
                 <div class="edit-place-info-window">
                         <div class="flex flex-column space-between align-center">
-                            <h1 class="add-place-photo-title">Add Picture</h1>
+                            <h3 class="add-place-photo-title">Add Picture</h3>
                             <label>Url: 
                             <input id="img-url-upload" type='text' placeholder="Enter Url" style="padding:7px;" />
                             </label>

@@ -50,9 +50,9 @@ export default {
         
         <nav class="navbar is-light nav-wrapper" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
+    <!-- <a class="navbar-item" href="https://bulma.io">
       <img src="https://bulma.io/images/bulma-logo.png" alt="Logo" width="112" height="15">
-    </a>
+    </a> -->
     <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
   <span aria-hidden="true"></span>
   <span aria-hidden="true"></span>
@@ -68,10 +68,10 @@ export default {
 
   <div id="navMenu" class="nav-center navbar-menu">
     <div class="navbar-start">
-    <router-link exact to="/">
+    <!-- <router-link exact to="/">
       <a class="navbar-item is-hoverable" >
         Home
-      </a></router-link>
+      </a></router-link> -->
     <router-link exact to="/misterEmail">
       <a class="navbar-item is-hoverable" >
       MisterEmail

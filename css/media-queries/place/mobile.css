@@ -2,10 +2,11 @@
     .place-add-wrapper {
         margin-left: 30px;
         left: 0;
+        width:90%;
     }
     .map-controller {
-        width: 40%;
-        margin-top:50px;
+        width: 100%;
+        /* margin-top:50px; */
         /* padding: 20px;
         background-color: white;
         border-radius: 4px;
@@ -35,7 +36,7 @@
         width:80%;
     }
     .map-features {
-       width:100%;
+       /* width:100%; */
         margin: 20px;
         margin-top: 50px;
     }

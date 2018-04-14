@@ -7,7 +7,7 @@
 @import './keeper.css';
 /* <-------media queries --------> */
 @import './media-queries/place/laptop.css';
-@import './media-queries/place/narrow.css';
+/* @import './media-queries/place/narrow.css'; */
 @import './media-queries/place/mobile.css';
 /* @import './media-queries/place/desktop.css'; */
 
