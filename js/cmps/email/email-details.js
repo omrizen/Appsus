@@ -3,42 +3,45 @@ import emailService from '../../services/book.service.js'
 
 
 export default {
-    props: {email:{type: Object, required: true}},
-   
+    props: { email: { type: Object, required: true } },
 
-    
-    created (){
+
+
+    created() {
         this.email.read = true;
-        console.log ('this.email.statusRead',this.email.statusRead);
+        console.log('this.email.statusRead', this.email.statusRead);
 
         // emailService.getById(this.email.id).
         //      then(email => {
         //          this.selectedEmail=email;
         //      }) 
-        
+
     },
 
-    
+
     methods: {
         close() {
             this.$emit('close');
         },
         deleteEmail() {
-            this.$emit('deleteEmail' , this.email.id);
+            this.$emit('deleteEmail', this.email.id);
         },
     },
     template: `
         <section class="email-details container">
-                    <h1> Subject: {{email.subject}} </h1>
-                    <h1> From:  {{email.from}}</h1>
-                    <div>  {{email.sentTime}}</div>
+                <div class="wrapper">
+                    
+                <h3 class="from"> <span>From:</span> {{email.from}}</h3>
+                    <h2 class="subject" title=2;>  <span>subject:</span> {{email.subject}} </h2>
                     <p>{{email.content}}</p>
-                    <button @click="close">x</button>
-                    <button @click="close(); deleteEmail();" >delete</button>
+                    <br>
+                    <button class="button is-text " @click="close(); deleteEmail();">Delete</button> <button class="button is-text" @click="close">Back</button>
+                </div>
+                    <!-- <button @click="close(); deleteEmail();" >delete</button> -->
         </section>
             `,
     components: {
-        
+
     }
-            
+
 };

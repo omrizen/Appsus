@@ -26,7 +26,7 @@ export default {
 
     template: `
         <section class="email-filter">
-        <div class="flex ">
+        <div class="flex align-center ">
             
             <div class="custom-select">
             <select @change="changedValue" >

@@ -7,21 +7,15 @@ import emailDetails from '../../cmps/email/email-details.js'
 // import userMsg from '../cmps/user-msg.js'
 // import toggleBtn from '../cmps/toggle-btn.js'
 
-import eventBus, { USR_MSG_DISPLAY } from '../../services/event-bus.service.js'
+// import eventBus, { USR_MSG_DISPLAY } from '../../services/event-bus.service.js'
+
 
 export default {
     created() {
-        emailService.query(this.filter)
-            .then(emails => {
-                this.emails = emails
-                console.log('app', emails);
-            })
-
+        this.getQuery()
         console.log('created');
-        // eventBus.$emit(USR_MSG_DISPLAY, {txt:'Going Home...',type:'success'});
 
     },
-    //   this.setFilter(this.filter);
 
     data() {
         return {
@@ -29,7 +23,8 @@ export default {
             filter: null,
             selectedEmail: null,
             composedEmail: false,
-            isSortByDate: true //if it is false it will be by subject
+            isSortByDate: true,
+            unReadCount: 0 //if it is false it will be by subject
         }
     },
     
@@ -48,12 +43,7 @@ export default {
                     }
                 })
         },
-        // selectEmail (id){
-        //     console.log ('id', id);
-        //      emailService.makeEmailRead(id).
-        //      then(()=>this.getQuery());
-
-        // },
+        
 
         closeEmail() {
             this.selectedEmail = null;
@@ -61,9 +51,7 @@ export default {
         
         deleteEmail(id) {
             emailService.deleteEmail()
-                .then(res => {
-                    console.log(`email was deleted`);
-                })
+                .then(() => this.getQuery());
         },
         saveEmail(email){
             emailService.saveEmail(email)
@@ -75,6 +63,12 @@ export default {
                 .then(emails => {
                     this.emails = emails
                     console.log('app', emails);
+                    var unReadCount = 0
+                    emails.forEach (email=>{
+                        if (!email.read) unReadCount++
+                    })
+                    this.unReadCount = unReadCount;
+
                 })
         },
         setFilter(filter) {
@@ -91,25 +85,29 @@ export default {
     },
 
     template: `<section class="email-app">
-                    
-                    <div v-if="!composedEmail"  class="flex sortAndFilter space-between align-center container" >
-                         <p class="button is-small"  @click="composedEmail = true">Compose</p> 
+                     
+                    <div v-if="!composedEmail && !selectedEmail"  class="flex sortAndFilter space-between align-center container" >
+                       <div class="flex  unread-and-compose">
+                            <button class="compose" @click="composedEmail = true">Compose</button> 
+                            <div class="unread-count"> unread: {{unReadCount}}</div> 
+                        </div>
                         <email-filter v-if="!selectedEmail" @filtered="setFilter"></email-filter>
                         <div class="email-sort flex space-between" v-if="!selectedEmail">     
                             <button   @click=sort(true)>sort by date</button>
                             <button  @click=sort(false)>sort by subject</button>
                         </div>
                     </div>  
-                    <!-- <button>sort by title </button> -->
-                    <!-- <button @click="composeEmail"> compose </button> -->
                     <email-compose @save="saveEmail"  @close="composedEmail=false" v-if="composedEmail"></email-compose> 
-                    <email-details v-if="selectedEmail" @deleteEmail="deleteEmail" :email="selectedEmail" @close="closeEmail"></email-details>
-                    <email-list v-if="!selectedEmail" :emails="emails"  @selected="selectEmail"></email-list>
-                    
+                    <email-details  v-if="selectedEmail && !composedEmail" @deleteEmail="deleteEmail" :email="selectedEmail" @close="closeEmail"></email-details>
+                    <email-list  :emails="emails"  @selected="selectEmail"></email-list>
+                    <!-- <email-status v-if="!selectedEmail" :emails="emails"  @selected="selectEmail"></email-list> -->
+                    <div class="container">
+                    <progress class="progress is-info" :value="emails.length-unReadCount"  :max="emails.length"></progress>   
+                    </div>                     
                 </section>`,
     components: {
         emailFilter,
-        emailList,
+        emailList,  
         emailService,
         emailCompose,
         emailStatus,

@@ -31,8 +31,8 @@ function getCurrency(currencyCode) {
             return '';
     }
 }
-function getLoremIpsum(wordsCount) {
-    var wordsCount = getRandomInt(1,wordsCount+1);  
+function getLoremIpsum(wordsCountMax , wordsCountMin=1 ) {
+    var wordsCount = getRandomInt(wordsCountMin,wordsCountMax+1);  
     var str = '';
     for (var i=0; i<wordsCount; i++){
         str += getRandomWord (getRandomInt(3,6));
@@ -40,6 +40,16 @@ function getLoremIpsum(wordsCount) {
     }
     return str;
 }
+
+// function getLoremIpsuma(wordsCount) {
+//     var wordsCount = getRandomInt(1,wordsCount+1);  
+//     var str = '';
+//     for (var i=0; i<wordsCount; i++){
+//         str += getRandomWord (getRandomInt(3,6));
+//         if (i<wordsCount-1) str += ' ';
+//     }
+//     return str;
+// }
 
 function getRandomWord(count) {
     var str ='';
