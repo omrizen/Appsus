@@ -31,14 +31,14 @@ export default {
             // console.log('placeId',placeId);
             placeService.addPlace(place)
                 .then(res => {
-                    console.log('Added Place');
+                    console.log('Added Temp Place');
                     console.log('res is', res)
                     this.places = res;
-                    eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Added Place', type: 'success' });
+                    // eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Added Temp Place', type: 'success' });
                 })
                 .catch(err => {
 
-                    eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Place Was Not Added', type: 'fail' });
+                    // eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Temp Place Was Not Added', type: 'fail' });
                 })
         }),
         eventBus.$on(ADD_TEMP_PLACE, place => {
@@ -48,11 +48,11 @@ export default {
                     console.log('Added Temp Place');
                     console.log('res is', res)
                     this.places = res;
-                    // eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Added Temp Place', type: 'success' });
+                    eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Added Place', type: 'success' });
                 })
                 .catch(err => {
 
-                    // eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Temp Place Was Not Added', type: 'fail' });
+                    eventBus.$emit(USR_MSG_DISPLAY, { txt: 'Place Was Not Added', type: 'fail' });
                 })
         }),
         eventBus.$on(UPDATE_PLACE, place => {
