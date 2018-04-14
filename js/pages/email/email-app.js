@@ -88,13 +88,13 @@ export default {
                      
                     <div v-if="!composedEmail && !selectedEmail"  class="flex sortAndFilter space-between align-center container" >
                        <div class="flex  unread-and-compose">
-                            <button class="compose" @click="composedEmail = true">Compose</button> 
+                            <button class="email-button compose" @click="composedEmail = true">Compose</button> 
                             <div class="unread-count"> unread: {{unReadCount}}</div> 
                         </div>
                         <email-filter v-if="!selectedEmail" @filtered="setFilter"></email-filter>
                         <div class="email-sort flex space-between" v-if="!selectedEmail">     
-                            <button   @click=sort(true)>sort by date</button>
-                            <button  @click=sort(false)>sort by subject</button>
+                            <button class="email-button"   @click=sort(true)>sort by date</button>
+                            <button class="email-button"  @click=sort(false)>sort by subject</button>
                         </div>
                     </div>  
                     <email-compose @save="saveEmail"  @close="composedEmail=false" v-if="composedEmail"></email-compose> 

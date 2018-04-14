@@ -12,8 +12,8 @@
 .user-msg.email{
     position: fixed;
     min-width: 200px;
-    top: 200px;
-    right:250px;
+    top: 50px;
+    right:50px;
     color: #fff;
     z-index: 100;
     background-color: rgb(200, 243, 218);

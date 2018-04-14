@@ -51,11 +51,11 @@ export default {
             .then(res => {
                 // console.log('Marked Place');
                
-                eventBus.$emit(USR_MSG_DISPLAY, {txt:'Marked Place',type:'success'});
+                // eventBus.$emit(USR_MSG_DISPLAY, {txt:'Marked Place',type:'success'});
             })
             .catch(err => {
                 
-                eventBus.$emit(USR_MSG_DISPLAY, {txt:'Place Was Not Marked',type:'fail'});
+                // eventBus.$emit(USR_MSG_DISPLAY, {txt:'Place Was Not Marked',type:'fail'});
             })
         },
         deletePlace(placeId) {
