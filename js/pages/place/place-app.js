@@ -121,7 +121,7 @@ export default {
                     </div>
                 </div>
                     <div class="button-wrapper">
-                    <button class="map-controllers-toggle">Controllers
+                    <button class="map-controllers-toggle">Places
                         <span class="arrow">
                             <i class="fas fa-arrow-up"></i>
                         </span>

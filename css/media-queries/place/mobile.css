@@ -14,6 +14,10 @@
         resize: both;
         overflow: auto; */
     }
+    .map-controller-wrapper{
+       
+        margin-top: 42px;
+    }
     .place-add #add-address {
         /* width:400px; */
         width: 100%;
