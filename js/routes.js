@@ -11,7 +11,7 @@ import place from './pages/place/place-app.js'
 
 
 const routes = [
-    {path: '/', component: home},
+    {path: '/', component: place},
     {path: '/about', component: about},
     {path: '/misterEmail', component: email},
     {path: '/misterPlace/:placeId?', component: place},

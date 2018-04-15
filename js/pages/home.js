@@ -1,7 +1,7 @@
 export default {
     template:`
     <section class="home">
-        <h1>Home!</h1>
+        <div class="img">Home!<div>
     </section>
     `
 }
